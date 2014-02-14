@@ -48,7 +48,7 @@ for($list_day = 1; $list_day <= $days_in_month; $list_day++):
             $showtoday='<strong class="overday">';
             //$showtoday.='<a href="point/fetchByDay/' . $list_day . '">' .  $list_day . '</a>';
             $day = $list_day < 10 ? '0' . $list_day : $list_day; 
-            $showtoday.='<a href="'.$this->url('point',array('action'=>'fetchByDay', 'id' => $year.$month.$day)).'">'. $day .'</a>';
+            $showtoday.='<a href="'.$this->url('point',array('action'=>'fetchByDay', 'date' => $year.$month.$day)).'">'. $day .'</a>';
             //$showtoday.='<a href="'.$this->url('point',array('action'=>'edit', 'id' => 10)).'">'. $list_day .'</a>';
             $showtoday.='<strong>';
 

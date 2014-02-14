@@ -12,10 +12,11 @@ class PointController extends AbstractActionController
     
     public function indexAction()
     {
-        /*$date = (date('Y').date('m').date('d'));
+        $date = (date('Y').date('m').date('d'));
         return new ViewModel(array(
-            'points' => $this->getPointTable()->fetchAllByDay($date),
-        ));*/
+            //'points' => $this->getPointTable()->fetchAllByDay($date),
+            'points' => $this->getPointTable()->fetchAll(),
+        ));
     }
 
     public function fetchByDayAction()
@@ -24,7 +25,9 @@ class PointController extends AbstractActionController
         $date = $this->date = $this->params()->fromRoute('date', 0);
 
         return array(
-                'points' => $this->getPointTable()->fetchAllByDay($date),
+            'points' => $this->getPointTable()->fetchAllByDay($date),
+            'date' => $date,
+            //'points' => $this->getPointTable()->fetchAll(),
         );
 
     }
