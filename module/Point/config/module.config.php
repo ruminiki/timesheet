@@ -11,12 +11,13 @@ return array(
             'point' => array(
                 'type'    => 'segment',
                 'options' => array(
-                    'route'    => '/point[/][:action][/][:id][:date]',
+                    //'route'    => '/point[/][:action][/][:id][:date]',
+                    'route'    => '/point[/][:action][/][:id][/][:date]',
                     //'route'    => '/point[/][:action][/:date]',
                     'constraints' => array(
                         'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
-                        'id'     => '[0-9]+',
                         'date'   => '[0-9]+',
+                        'id'     => '[0-9]+',
                     ),
                     'defaults' => array(
                         'controller' => 'Point\Controller\Point',
