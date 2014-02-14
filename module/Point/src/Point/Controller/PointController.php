@@ -14,8 +14,8 @@ class PointController extends AbstractActionController
     {
         $date = (date('Y').date('m').date('d'));
         return new ViewModel(array(
-            //'points' => $this->getPointTable()->fetchAllByDay($date),
-            'points' => $this->getPointTable()->fetchAll(),
+            'points' => $this->getPointTable()->fetchAllByDay($date),
+            //'points' => $this->getPointTable()->fetchAll(),
         ));
     }
 
