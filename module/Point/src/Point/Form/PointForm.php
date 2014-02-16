@@ -18,8 +18,13 @@ class PointForm extends Form
         $this->add(array(
             'name' => 'date',
             'type' => 'Text',
+            'attributes' => array(
+                'id' => 'date',
+                'readonly' => TRUE,
+            ),
             'options' => array(
                 'label' => 'Data',
+                'readonly' => 'readonly',
             ),
         ));
         $this->add(array(

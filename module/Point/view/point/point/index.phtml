@@ -1,11 +1,69 @@
-
 <?php
 // module/Point/view/point/point/index.phtml:
-echo '<h2>'.date('M').' '.date('Y').'</h2>';
+echo '<h2>'.$month_label.' '.$year.'</h2>';
+?>
+<div id="table_month_link">
+    <ul>
+        <li><a href="<?php echo $this->url('point', array('action'=>'fetchByDay', 'date' => $year.'0101'));?>">
+                <?php echo date("F", strtotime(date('Y').'01'.date('d'))) ?>
+            </a>
+        </li>|
+         <li>
+            <a href="<?php echo $this->url('point', array('action'=>'fetchByDay', 'date' => $year.'0201'));?>">
+                <?php echo date("F", strtotime(date('Y').'02'.date('d'))) ?>
+            </a>
+        </li>|
+        <li>
+            <a href="<?php echo $this->url('point', array('action'=>'fetchByDay', 'date' => $year.'0301'));?>">
+                <?php echo date("F", strtotime(date('Y').'03'.date('d'))) ?>
+            </a>
+        </li>|
+        <li>
+            <a href="<?php echo $this->url('point', array('action'=>'fetchByDay', 'date' => $year.'0401'));?>">
+                <?php echo date("F", strtotime(date('Y').'04'.date('d'))) ?>
+            </a>
+        </li>|
+        <li>
+            <a href="<?php echo $this->url('point', array('action'=>'fetchByDay', 'date' => $year.'0501'));?>">
+                <?php echo date("F", strtotime(date('Y').'05'.date('d'))) ?>
+            </a>
+        </li>|
+        <li><a href="<?php echo $this->url('point', array('action'=>'fetchByDay', 'date' => $year.'0601'));?>">
+                <?php echo date("F", strtotime(date('Y').'06'.date('d'))) ?>
+            </a>
+        </li>|
+        <li>
+            <a href="<?php echo $this->url('point', array('action'=>'fetchByDay', 'date' => $year.'0701'));?>">
+                <?php echo date("F", strtotime(date('Y').'07'.date('d'))) ?>
+            </a>
+        </li>|
+        <li><a href="<?php echo $this->url('point', array('action'=>'fetchByDay', 'date' => $year.'0801'));?>">
+                <?php echo date("F", strtotime(date('Y').'08'.date('d'))) ?>
+            </a>
+        </li>|
+        <li><a href="<?php echo $this->url('point', array('action'=>'fetchByDay', 'date' => $year.'0901'));?>">
+                <?php echo date("F", strtotime(date('Y').'09'.date('d'))) ?>
+            </a>
+        </li>|
+        <li><a href="<?php echo $this->url('point', array('action'=>'fetchByDay', 'date' => $year.'1001'));?>">
+                <?php echo date("F", strtotime(date('Y').'10'.date('d'))) ?>
+            </a>
+        </li>|
+        <li><a href="<?php echo $this->url('point', array('action'=>'fetchByDay', 'date' => $year.'1101'));?>">
+                <?php echo date("F", strtotime(date('Y').'11'.date('d'))) ?>
+            </a>
+        </li>|
+        <li>
+            <a href="<?php echo $this->url('point', array('action'=>'fetchByDay', 'date' => $year.'1201'));?>">
+                <?php echo date("F", strtotime(date('Y').'12'.date('d'))) ?>
+            </a>
+        </li>
+    </ul>
+</div>
+<?php
 
 //==============DRAW CALENDAR===========
-$month = date('m');
-$year = date('Y');
+
 
 // Draw table for Calendar 
 $calendar = '<table cellpadding="0" cellspacing="0" class="calendar">';
@@ -41,22 +99,22 @@ for($list_day = 1; $list_day <= $days_in_month; $list_day++):
     }
     $calendar.= '<td class="calendar-day '.$currentday.'">';
     
-        // Add in the day number
-        if($list_day<date('d') && $month==date('n'))
-        {
-            //$showtoday='<strong class="overday">' . $list_day . '</a></strong>';
-            $showtoday='<strong class="overday">';
-            //$showtoday.='<a href="point/fetchByDay/' . $list_day . '">' .  $list_day . '</a>';
-            $day = $list_day < 10 ? '0' . $list_day : $list_day; 
-            $showtoday.='<a href="'.$this->url('point',array('action'=>'fetchByDay', 'date' => $year.$month.$day)).'">'. $day .'</a>';
-            //$showtoday.='<a href="'.$this->url('point',array('action'=>'edit', 'id' => 10)).'">'. $list_day .'</a>';
-            $showtoday.='<strong>';
+    // Add in the day number
+    if( $list_day<=date('d') || $month < date('n'))
+    {
+        //$showtoday='<strong class="overday">' . $list_day . '</a></strong>';
+        $showtoday='<strong class="overday">';
+        //$showtoday.='<a href="point/fetchByDay/' . $list_day . '">' .  $list_day . '</a>';
+        $day = $list_day < 10 ? '0' . $list_day : $list_day; 
+        $showtoday.='<a href="'.$this->url('point',array('action'=>'fetchByDay', 'date' => $year.$month.$day)).'">'. $day .'</a>';
+        //$showtoday.='<a href="'.$this->url('point',array('action'=>'edit', 'id' => 10)).'">'. $list_day .'</a>';
+        $showtoday.='<strong>';
 
-        }else
-        {
-            $showtoday=$list_day;
-        }
-        $calendar .= '<div class="day-number">'.$showtoday.'</div>';
+    }else
+    {
+        $showtoday=$list_day;
+    }
+    $calendar .= '<div class="day-number">'.$showtoday.'</div>';
 
     // Draw table end
     $calendar.= '</td>';
@@ -90,7 +148,7 @@ echo $calendar;
 
 ?>
 
-<h1><?php echo $this->escapeHtml($title); ?></h1>
+<h1></h1>
 <p>
     <a href="<?php echo $this->url('point', array('action'=>'add'));?>">Add new point</a>
 </p>

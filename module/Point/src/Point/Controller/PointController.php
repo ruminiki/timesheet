@@ -5,18 +5,31 @@ use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 use Point\Form\PointForm;
 use Point\Model\Point;
+use Zend\Session\Container;
 
 class PointController extends AbstractActionController
 {
     protected $pointTable;
-    
+        
     public function indexAction()
     {
+        
         $date = (date('Y').date('m').date('d'));
+        $month = date('m');
+        $year = date('Y');
+        $day = date('d');
+
+        $month_label = substr(date("F", strtotime($date)), 0, 3);
+
         return new ViewModel(array(
             'points' => $this->getPointTable()->fetchAllByDay($date),
+            'month' => $month,
+            'year' => $year,
+            'day' => $day,
+            'month_label' => $month_label,
             //'points' => $this->getPointTable()->fetchAll(),
         ));
+
     }
 
     public function fetchByDayAction()
@@ -24,9 +37,20 @@ class PointController extends AbstractActionController
         
         $date = $this->date = $this->params()->fromRoute('date', 0);
 
+        $container = new Container('selectedDate');
+        $container->selectedDate = $date;
+        
+        $month = substr($date, 4, 2);
+        $year = substr($date, 0, 4);
+        $day = substr($date, 6, 2);
+        $month_label = substr(date("F", strtotime($date)), 0, 3);
+        //date("F", mktime(0, 0, 0, $month, 10))
         return array(
             'points' => $this->getPointTable()->fetchAllByDay($date),
-            'date' => $date,
+            'month' => $month,
+            'year' => $year,
+            'day' => $day,
+            'month_label' => $month_label,            
             //'points' => $this->getPointTable()->fetchAll(),
         );
 
@@ -39,9 +63,12 @@ class PointController extends AbstractActionController
 
         $form = new PointForm();
         $form->get('submit')->setValue('Salvar');
+        //retrieve selected date from session
+        $container = new Container('selectedDate');
+        //format date (Ymd) to (d/m/Y)
+        $date = date_create($container->selectedDate);
 
-        //preenche a data no campo date
-        $form->get('date')->setValue($this->date);
+        $form->get('date')->setValue(date_format($date, 'd/m/Y'));
 
         $request = $this->getRequest();
         if ($request->isPost()) {
@@ -51,6 +78,8 @@ class PointController extends AbstractActionController
 
             if ($form->isValid()) {
                 $point->exchangeArray($form->getData());
+                //return date format do save in database
+                $point->date = date_format($date, 'Ymd');
                 $this->getPointTable()->savePoint($point);
 
                 // Redirect to list of points
