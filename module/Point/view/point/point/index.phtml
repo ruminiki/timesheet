@@ -1,69 +1,28 @@
-<?php
-// module/Point/view/point/point/index.phtml:
-echo '<h2>'.$month_label.' '.$year.'</h2>';
-?>
-<div id="table_month_link">
-    <ul>
-        <li><a href="<?php echo $this->url('point', array('action'=>'fetchByDay', 'date' => $year.'0101'));?>">
-                <?php echo date("F", strtotime(date('Y').'01'.date('d'))) ?>
-            </a>
-        </li>|
-         <li>
-            <a href="<?php echo $this->url('point', array('action'=>'fetchByDay', 'date' => $year.'0201'));?>">
-                <?php echo date("F", strtotime(date('Y').'02'.date('d'))) ?>
-            </a>
-        </li>|
-        <li>
-            <a href="<?php echo $this->url('point', array('action'=>'fetchByDay', 'date' => $year.'0301'));?>">
-                <?php echo date("F", strtotime(date('Y').'03'.date('d'))) ?>
-            </a>
-        </li>|
-        <li>
-            <a href="<?php echo $this->url('point', array('action'=>'fetchByDay', 'date' => $year.'0401'));?>">
-                <?php echo date("F", strtotime(date('Y').'04'.date('d'))) ?>
-            </a>
-        </li>|
-        <li>
-            <a href="<?php echo $this->url('point', array('action'=>'fetchByDay', 'date' => $year.'0501'));?>">
-                <?php echo date("F", strtotime(date('Y').'05'.date('d'))) ?>
-            </a>
-        </li>|
-        <li><a href="<?php echo $this->url('point', array('action'=>'fetchByDay', 'date' => $year.'0601'));?>">
-                <?php echo date("F", strtotime(date('Y').'06'.date('d'))) ?>
-            </a>
-        </li>|
-        <li>
-            <a href="<?php echo $this->url('point', array('action'=>'fetchByDay', 'date' => $year.'0701'));?>">
-                <?php echo date("F", strtotime(date('Y').'07'.date('d'))) ?>
-            </a>
-        </li>|
-        <li><a href="<?php echo $this->url('point', array('action'=>'fetchByDay', 'date' => $year.'0801'));?>">
-                <?php echo date("F", strtotime(date('Y').'08'.date('d'))) ?>
-            </a>
-        </li>|
-        <li><a href="<?php echo $this->url('point', array('action'=>'fetchByDay', 'date' => $year.'0901'));?>">
-                <?php echo date("F", strtotime(date('Y').'09'.date('d'))) ?>
-            </a>
-        </li>|
-        <li><a href="<?php echo $this->url('point', array('action'=>'fetchByDay', 'date' => $year.'1001'));?>">
-                <?php echo date("F", strtotime(date('Y').'10'.date('d'))) ?>
-            </a>
-        </li>|
-        <li><a href="<?php echo $this->url('point', array('action'=>'fetchByDay', 'date' => $year.'1101'));?>">
-                <?php echo date("F", strtotime(date('Y').'11'.date('d'))) ?>
-            </a>
-        </li>|
-        <li>
-            <a href="<?php echo $this->url('point', array('action'=>'fetchByDay', 'date' => $year.'1201'));?>">
-                <?php echo date("F", strtotime(date('Y').'12'.date('d'))) ?>
-            </a>
-        </li>
-    </ul>
+
+<div style="display:block">
+
+<div>
+    <a href="<?php echo $this->url('point', array('action'=>'nextMonth'));?>">
+        <img class="month_up" src="<?php echo $this->basePath('img/up.png') ?>" height="25" width="25">
+    </a>
+    <a href="<?php echo $this->url('point', array('action'=>'nextYear'));?>">
+        <img class="year_up" src="<?php echo $this->basePath('img/up.png') ?>" height="25" width="25">
+    </a>
 </div>
+<div><h2><?php echo $month_label.'    '.$year; ?></h2></div>
+<div>
+    <a href="<?php echo $this->url('point', array('action'=>'previousMonth'));?>">
+        <img class="month_down" src="<?php echo $this->basePath('img/down.png') ?>" height="25" width="25">
+    </a>
+    <a href="<?php echo $this->url('point', array('action'=>'previousYear'));?>">
+        <img class="year_down" src="<?php echo $this->basePath('img/down.png') ?>" height="25" width="25">
+    </a>
+</div>
+
+</div>
+
 <?php
-
 //==============DRAW CALENDAR===========
-
 
 // Draw table for Calendar 
 $calendar = '<table cellpadding="0" cellspacing="0" class="calendar">';
@@ -100,7 +59,8 @@ for($list_day = 1; $list_day <= $days_in_month; $list_day++):
     $calendar.= '<td class="calendar-day '.$currentday.'">';
     
     // Add in the day number
-    if( $list_day<=date('d') || $month < date('n'))
+    if( ($list_day <= date('d') && $month == date('n') && $year == date('Y')) ||
+        ($year < date('Y')) || ($month < date('n') && $year == date('Y')))
     {
         //$showtoday='<strong class="overday">' . $list_day . '</a></strong>';
         $showtoday='<strong class="overday">';
@@ -148,26 +108,33 @@ echo $calendar;
 
 ?>
 
-<h1></h1>
+<h3>
+<?php
+    echo 'Date: ' . $selected_date;
+?>
+</h3>
+
+<?php
+    if (!($month > date('n') && $year >= date('Y'))){
+?>
 <p>
     <a href="<?php echo $this->url('point', array('action'=>'add'));?>">Add new point</a>
 </p>
+<?php
+}
+?>
 
 <table class="table">
 <tr>
-    <th>Date</th>
     <th>Schedule</th>
-    <th>Sequence</th>
     <th>Note</th>
     <th>&nbsp;</th>
 </tr>
 <?php foreach ($points as $point) : ?>
 <tr>
-    <td><?php echo $this->escapeHtml(substr($point->date, 6, 2) . "/" . substr($point->date, 4, 2) . "/" . substr($point->date, 0, 4) );?></td>
-    <td><?php echo $this->escapeHtml($point->schedule);?></td>
-    <td><?php echo $this->escapeHtml($point->sequence);?></td>
-    <td><?php echo $this->escapeHtml($point->note);?></td>
-    <td>
+    <td width="30px"><?php echo $this->escapeHtml($point->schedule);?></td>
+    <td width="80%"><?php echo $this->escapeHtml($point->note);?></td>
+    <td width="120px">
         <a href="<?php echo $this->url('point',array('action'=>'edit', 'id' => $point->id));?>">Edit</a>
         <a href="<?php echo $this->url('point',array('action'=>'delete', 'id' => $point->id));?>">Delete</a>
     </td>

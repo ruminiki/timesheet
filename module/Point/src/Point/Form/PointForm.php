@@ -34,14 +34,14 @@ class PointForm extends Form
                 'label' => 'Hora',
             ),
         ));
-        $this->add(array(
+        /*$this->add(array(
             'name' => 'sequence',
             'type' => 'Text',
             'options' => array(
                 'label' => 'Sequência',
             ),
         ));
-        
+        */
         $this->add(array(
             'name' => 'note',
             'type' => 'TextArea',
