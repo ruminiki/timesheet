@@ -1,6 +1,4 @@
-
 <div style="display:block">
-    <div><h2><?php echo $month_label.'    '.$year; ?></h2></div>
     <div>
         <a href="<?php echo $this->url('point', array('action'=>'nextMonth'));?>">
             <img class="month_up" src="<?php echo $this->basePath('img/up.png') ?>" height="30" width="30">
@@ -9,16 +7,13 @@
             <img class="year_up" src="<?php echo $this->basePath('img/up.png') ?>" height="30" width="30">
         </a>
     </div>
+    <div><h2><?php echo $month_label.'    '.$year; ?></h2></div>
     <div>
         <a href="<?php echo $this->url('point', array('action'=>'previousMonth'));?>">
             <img class="month_down" src="<?php echo $this->basePath('img/down.png') ?>" height="30" width="30">
         </a>
         <a href="<?php echo $this->url('point', array('action'=>'previousYear'));?>">
             <img class="year_down" src="<?php echo $this->basePath('img/down.png') ?>" height="30" width="30">
-            <img class="month_down" src="<?php echo $this->basePath('img/down.png') ?>" height="25" width="25">
-        </a>
-        <a href="<?php echo $this->url('point', array('action'=>'previousYear'));?>">
-            <img class="year_down" src="<?php echo $this->basePath('img/down.png') ?>" height="25" width="25">
         </a>
     </div>
 </div>
@@ -57,14 +52,14 @@ for($list_day = 1; $list_day <= $days_in_month; $list_day++):
     }else
     {
         //verifica se é o dia selecionado pelo usuário
-        if( $list_day==substr($selected_date, 0, 2) ){
+        if( $list_day==$day ){
             $currentday='selected_day';
         }else{
             $currentday='';    
         }
     }
 
-    $calendar.= '<td class="calendar-day ' . $currentday . '">';
+    
     
     // Add in the day number
     if( ($list_day <= date('d') && $month == date('n') && $year == date('Y')) ||
@@ -73,16 +68,21 @@ for($list_day = 1; $list_day <= $days_in_month; $list_day++):
         //$showtoday='<strong class="overday">' . $list_day . '</a></strong>';
         $showtoday='<strong class="overday">';
         //$showtoday.='<a href="point/fetchByDay/' . $list_day . '">' .  $list_day . '</a>';
-        $day = $list_day < 10 ? '0' . $list_day : $list_day; 
-        $showtoday.='<a href="'.$this->url('point',array('action'=>'fetchByDay', 'date' => $year.$month.$day)).'">'. $day .'</a>';
+        $d = $list_day < 10 ? '0' . $list_day : $list_day; 
+        $showtoday.=$d;
         //$showtoday.='<a href="'.$this->url('point',array('action'=>'edit', 'id' => 10)).'">'. $list_day .'</a>';
         $showtoday.='<strong>';
+
+        $url = "'" . $this->url('point',array('action'=>'fetchByDay', 'date' => $year.$month.$d)) . "'";
+        $calendar.= '<td class="calendar-day ' . $currentday . '" onclick="window.location.href='.$url.'">';
 
     }else
     {
         $showtoday=$list_day;
+        $calendar.= '<td class="calendar-day ' . $currentday . '">';
     }
-    $calendar .= '<div class="day-number">'.$showtoday.'</div>';
+
+    $calendar .= '<div class="day-number" onclick="window.location=http://google.com">'.$showtoday.'</div>';
 
     // Draw table end
     $calendar.= '</td>';
