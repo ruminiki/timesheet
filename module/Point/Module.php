@@ -5,6 +5,8 @@ use Zend\Mvc\ModuleRouteListener;
 use Zend\Mvc\MvcEvent;
 use Point\Model\Point;
 use Point\Model\PointTable;
+use Point\Model\WorkedHours;
+use Point\Model\WorkedHoursTable;
 use Zend\Db\ResultSet\ResultSet;
 use Zend\Db\TableGateway\TableGateway;
 
@@ -44,6 +46,17 @@ class Module
                     $resultSetPrototype = new ResultSet();
                     $resultSetPrototype->setArrayObjectPrototype(new Point());
                     return new TableGateway('point', $dbAdapter, null, $resultSetPrototype);
+                },
+                'Point\Model\WorkedHoursTable' =>  function($sm) {
+                    $tableGateway = $sm->get('WorkedHoursTableGateway');
+                    $table = new WorkedHoursTable($tableGateway);
+                    return $table;
+                },
+                'WorkedHoursTableGateway' => function ($sm) {
+                    $dbAdapter = $sm->get('Zend\Db\Adapter\Adapter');
+                    $resultSetPrototype = new ResultSet();
+                    $resultSetPrototype->setArrayObjectPrototype(new WorkedHours());
+                    return new TableGateway('worked_hours', $dbAdapter, null, $resultSetPrototype);
                 },
                 'Zend\Session\SessionManager' => function ($sm) {
                     $config = $sm->get('config');

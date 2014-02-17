@@ -6,10 +6,12 @@ use Zend\View\Model\ViewModel;
 use Point\Form\PointForm;
 use Point\Model\Point;
 use Zend\Session\Container;
+use DateTime;
 
 class PointController extends AbstractActionController
 {
     protected $pointTable;
+    protected $workedHoursTable;
         
     public function indexAction()
     {
@@ -21,14 +23,17 @@ class PointController extends AbstractActionController
         }
 
         $date = date_create($container->selectedDate);
-
+        $points = $this->getPointTable()->fetchAllByDay($container->selectedDate);
+        $this->calculateWorkedHours($points, $container->selectedDate);
+       
         return new ViewModel(array(
-            'points' => $this->getPointTable()->fetchAllByDay($container->selectedDate),
+            'points' => $points,
             'month' => date_format($date,'m'),
             'year' => date_format($date,'Y'),
             'day' => date_format($date,'d'),
             'month_label' => substr(date("F", strtotime($container->selectedDate)), 0, 3),
             'selected_date' => date_format($date,'d')."/".date_format($date,'m')."/".date_format($date,'Y'),
+            'worked_hours' => $this->getWorkedHoursTable()->getWorkedHours($container->selectedDate),
             //'points' => $this->getPointTable()->fetchAll(),
         ));
 
@@ -63,6 +68,7 @@ class PointController extends AbstractActionController
             'year' => $year,
             'day' => $day,
             'month_label' => $month_label,
+            'worked_hours' => $this->getWorkedHoursTable()->getWorkedHours($container->selectedDate),
             'selected_date' => $day."/".$month."/".$year,
         ));
 
@@ -98,6 +104,7 @@ class PointController extends AbstractActionController
             'year' => $year,
             'day' => $day,
             'month_label' => $month_label,
+            'worked_hours' => $this->getWorkedHoursTable()->getWorkedHours($container->selectedDate),
             'selected_date' => $day."/".$month."/".$year,
         ));
 
@@ -123,6 +130,7 @@ class PointController extends AbstractActionController
             'year' => $year,
             'day' => $day,
             'month_label' => $month_label,
+            'worked_hours' => $this->getWorkedHoursTable()->getWorkedHours($container->selectedDate),
             'selected_date' => $day."/".$month."/".$year,
         ));
 
@@ -147,6 +155,7 @@ class PointController extends AbstractActionController
             'year' => $year,
             'day' => $day,
             'month_label' => $month_label,
+            'worked_hours' => $this->getWorkedHoursTable()->getWorkedHours($container->selectedDate),
             'selected_date' => $day."/".$month."/".$year,
         ));
 
@@ -165,14 +174,17 @@ class PointController extends AbstractActionController
         $day = substr($date, 6, 2);
 
         $month_label = substr(date("F", strtotime($date)), 0, 3);
+        $points = $this->getPointTable()->fetchAllByDay($container->selectedDate);
+        $this->calculateWorkedHours($points, $container->selectedDate);
 
         // Redirect to list of points
          $viewModel = new ViewModel(array(
-            'points' => $this->getPointTable()->fetchAllByDay($container->selectedDate),
+            'points' => $points,
             'month' => $month,
             'year' => $year,
             'day' => $day,
             'month_label' => $month_label,
+            'worked_hours' => $this->getWorkedHoursTable()->getWorkedHours($container->selectedDate),
             'selected_date' => $day."/".$month."/".$year,
         ));
 
@@ -289,6 +301,76 @@ class PointController extends AbstractActionController
             $this->pointTable = $sm->get('Point\Model\PointTable');
         }
         return $this->pointTable;
+    }
+
+    public function getWorkedHoursTable()
+    {
+        if (!$this->workedHoursTable) {
+            $sm = $this->getServiceLocator();
+            $this->workedHoursTable = $sm->get('Point\Model\WorkedHoursTable');
+        }
+        
+        return $this->workedHoursTable;
+    }
+
+    public function calculateWorkedHours($points, $date){
+
+        $worked_hours_interval = array();
+        $worked_hours = "";
+        $point_aux = null;
+
+        $index = 1;
+        $points->buffer();
+
+        //$f = fopen("/tmp/time.log", "w");
+
+        foreach ($points as $point){
+            
+            if ( $index % 2 == 0 ){
+                
+                $a = new DateTime($point_aux->schedule);
+                $b = new DateTime($point->schedule);
+
+                $interval = $a->diff($b);
+
+                //fwrite($f, $point->schedule . " - " . $point_aux->schedule . '\n');
+                //fwrite($f, 'P: ' . $interval->format("%H:%I:%S") . '     ');
+
+                array_push($worked_hours_interval, $interval->format("%H:%I:%S"));    
+
+            }else{
+                $point_aux = $point;
+            }
+
+            $index++;
+
+        }    
+
+        //fwrite($f, implode(",", $worked_hours_interval));
+        //fwrite($f, count($worked_hours_interval));
+
+        
+
+        for ($i = 0; $i < count($worked_hours_interval); $i++){
+            if ( $i == 0 ){
+                $worked_hours = $worked_hours_interval[$i];
+            }else{
+                $midnight = strtotime("0:00");
+                
+                $t1 = strtotime($worked_hours_interval[$i]) - $midnight;
+                $t2 = strtotime($worked_hours) - $midnight;
+
+                $seconds = $t1 + $t2;
+
+                //$worked_hours = date("H:i:s",$seconds);
+                $worked_hours = date("H:i", $midnight + $seconds);
+            }
+            //fwrite($f, 'W: ' . $worked_hours . "    ");
+        }
+        
+        //fclose($f);
+        $this->getWorkedHoursTable()->saveWorkedHours($date, $worked_hours);
+
     }
 
 }
