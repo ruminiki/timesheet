@@ -18,8 +18,13 @@ class PointForm extends Form
         $this->add(array(
             'name' => 'date',
             'type' => 'Text',
+            'attributes' => array(
+                'id' => 'date',
+                'readonly' => TRUE,
+            ),
             'options' => array(
                 'label' => 'Data',
+                'readonly' => 'readonly',
             ),
         ));
         $this->add(array(
@@ -29,14 +34,14 @@ class PointForm extends Form
                 'label' => 'Hora',
             ),
         ));
-        $this->add(array(
+        /*$this->add(array(
             'name' => 'sequence',
             'type' => 'Text',
             'options' => array(
                 'label' => 'Sequência',
             ),
         ));
-        
+        */
         $this->add(array(
             'name' => 'note',
             'type' => 'TextArea',

@@ -18,7 +18,7 @@ class PointTable
     {
         $resultSet = $this->tableGateway->select(function (Select $select) {
             $select->order('date ASC');
-            $select->order('sequence ASC');
+            $select->order('schedule ASC');
         });
 
         return $resultSet;
@@ -29,7 +29,7 @@ class PointTable
         $resultSet = $this->tableGateway->select(
             function (Select $select) use ($_date) {
                 $select->where->equalTo('date', $_date);
-                $select->order('sequence ASC');
+                $select->order('schedule ASC');
             }
         ); 
 

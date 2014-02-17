@@ -5,30 +5,178 @@ use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 use Point\Form\PointForm;
 use Point\Model\Point;
+use Zend\Session\Container;
 
 class PointController extends AbstractActionController
 {
     protected $pointTable;
-    
+        
     public function indexAction()
     {
-        $date = (date('Y').date('m').date('d'));
+        
+        $container = new Container('selectedDate');
+
+        if ( empty($container->selectedDate) || is_null($container->selectedDate) ){
+            $container->selectedDate = date('Y').date('m').date('d');
+        }
+
+        $date = date_create($container->selectedDate);
+
         return new ViewModel(array(
-            'points' => $this->getPointTable()->fetchAllByDay($date),
+            'points' => $this->getPointTable()->fetchAllByDay($container->selectedDate),
+            'month' => date_format($date,'m'),
+            'year' => date_format($date,'Y'),
+            'day' => date_format($date,'d'),
+            'month_label' => substr(date("F", strtotime($container->selectedDate)), 0, 3),
+            'selected_date' => date_format($date,'d')."/".date_format($date,'m')."/".date_format($date,'Y'),
             //'points' => $this->getPointTable()->fetchAll(),
         ));
+
     }
 
-    public function fetchByDayAction()
-    {
+    public function nextMonthAction(){
+
+        $container = new Container('selectedDate');
+        $date = date_create($container->selectedDate);
+        $day = date_format($date, 'd');
+        $month = date_format($date, 'm');
+        $year = date_format($date, 'Y');
+
+        if ( $month == '12'){
+            $month = '01';
+            $year = intval($year)+1;
+            $container->selectedDate = $year.$month.$day;
+        }else{
+            $month = intval($month) + 1;
+            if ( $month < 10 ){
+                $month = '0'.$month;
+            }
+            $container->selectedDate = $year.$month.$day;
+        }
+
+        $month_label = substr(date("F", strtotime($container->selectedDate)), 0, 3);
+
+        // Redirect to list of points
+         $viewModel = new ViewModel(array(
+            'points' => $this->getPointTable()->fetchAllByDay($container->selectedDate),
+            'month' => $month,
+            'year' => $year,
+            'day' => $day,
+            'month_label' => $month_label,
+            'selected_date' => $day."/".$month."/".$year,
+        ));
+
+        return $viewModel->setTemplate('point/point/index.phtml');
+    }
+
+    public function previousMonthAction(){
+
+        $container = new Container('selectedDate');
+        $date = date_create($container->selectedDate);
+        $day = date_format($date, 'd');
+        $month = date_format($date, 'm');
+        $year = date_format($date, 'Y');
+
+        if ( $month == '01'){
+            $month = '12';
+            $year = intval($year)-1;
+            $container->selectedDate = $year.$month.$day;
+        }else{
+            $month = intval($month) - 1;
+            if ( $month < 10 ){
+                $month = '0'.$month;
+            }
+            $container->selectedDate = $year.$month.$day;
+        }
+        
+        $month_label = substr(date("F", strtotime($container->selectedDate)), 0, 3);
+        
+        // Redirect to list of points
+         $viewModel = new ViewModel(array(
+            'points' => $this->getPointTable()->fetchAllByDay($container->selectedDate),
+            'month' => $month,
+            'year' => $year,
+            'day' => $day,
+            'month_label' => $month_label,
+            'selected_date' => $day."/".$month."/".$year,
+        ));
+
+        return $viewModel->setTemplate('point/point/index.phtml');
+    }
+
+    public function nextYearAction(){
+
+        $container = new Container('selectedDate');
+        $date = date_create($container->selectedDate);
+        $day = date_format($date, 'd');
+        $month = date_format($date, 'm');
+        $year = date_format($date, 'Y');
+        $month_label = substr(date("F", strtotime($container->selectedDate)), 0, 3);
+
+        $year = intval($year) + 1;
+        $container->selectedDate = $year.$month.$day;
+
+        // Redirect to list of points
+         $viewModel = new ViewModel(array(
+            'points' => $this->getPointTable()->fetchAllByDay($container->selectedDate),
+            'month' => $month,
+            'year' => $year,
+            'day' => $day,
+            'month_label' => $month_label,
+            'selected_date' => $day."/".$month."/".$year,
+        ));
+
+        return $viewModel->setTemplate('point/point/index.phtml');
+    }
+
+    public function previousYearAction(){
+        $container = new Container('selectedDate');
+        $date = date_create($container->selectedDate);
+        $day = date_format($date, 'd');
+        $month = date_format($date, 'm');
+        $year = date_format($date, 'Y');
+        $month_label = substr(date("F", strtotime($container->selectedDate)), 0, 3);
+
+        $year = intval($year) - 1;
+        $container->selectedDate = $year.$month.$day;
+
+        // Redirect to list of points
+         $viewModel = new ViewModel(array(
+            'points' => $this->getPointTable()->fetchAllByDay($container->selectedDate),
+            'month' => $month,
+            'year' => $year,
+            'day' => $day,
+            'month_label' => $month_label,
+            'selected_date' => $day."/".$month."/".$year,
+        ));
+
+        return $viewModel->setTemplate('point/point/index.phtml');
+    }
+
+    public function fetchByDayAction(){
         
         $date = $this->date = $this->params()->fromRoute('date', 0);
 
-        return array(
-            'points' => $this->getPointTable()->fetchAllByDay($date),
-            'date' => $date,
-            //'points' => $this->getPointTable()->fetchAll(),
-        );
+        $container = new Container('selectedDate');
+        $container->selectedDate = $date;
+        
+        $month = substr($date, 4, 2);
+        $year = substr($date, 0, 4);
+        $day = substr($date, 6, 2);
+        
+        $month_label = substr(date("F", strtotime($date)), 0, 3);
+
+        // Redirect to list of points
+         $viewModel = new ViewModel(array(
+            'points' => $this->getPointTable()->fetchAllByDay($container->selectedDate),
+            'month' => $month,
+            'year' => $year,
+            'day' => $day,
+            'month_label' => $month_label,
+            'selected_date' => $day."/".$month."/".$year,
+        ));
+
+        return $viewModel->setTemplate('point/point/index.phtml');
 
     }
 
@@ -39,9 +187,12 @@ class PointController extends AbstractActionController
 
         $form = new PointForm();
         $form->get('submit')->setValue('Salvar');
+        //retrieve selected date from session
+        $container = new Container('selectedDate');
+        //format date (Ymd) to (d/m/Y)
+        $date = date_create($container->selectedDate);
 
-        //preenche a data no campo date
-        $form->get('date')->setValue($this->date);
+        $form->get('date')->setValue(date_format($date, 'd/m/Y'));
 
         $request = $this->getRequest();
         if ($request->isPost()) {
@@ -51,6 +202,8 @@ class PointController extends AbstractActionController
 
             if ($form->isValid()) {
                 $point->exchangeArray($form->getData());
+                //return date format do save in database
+                $point->date = date_format($date, 'Ymd');
                 $this->getPointTable()->savePoint($point);
 
                 // Redirect to list of points

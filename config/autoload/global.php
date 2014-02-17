@@ -25,4 +25,19 @@ return array(
                     => 'Zend\Db\Adapter\AdapterServiceFactory',
         ),
     ),
+    'session' => array(
+        'config' => array(
+            'class' => 'Zend\Session\Config\SessionConfig',
+            'options' => array(
+                'name' => 'point',
+            ),
+        ),
+        'storage' => 'Zend\Session\Storage\SessionArrayStorage',
+        'validators' => array(
+            array(
+                'Zend\Session\Validator\RemoteAddr',
+                'Zend\Session\Validator\HttpUserAgent',
+            ),
+        ),
+    ),
 );
