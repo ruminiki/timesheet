@@ -40,7 +40,6 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#82a8ff', end
 }
 .currentday:hover{-moz-box-shadow:0px 0px 24px #074080 inset !important; -webkit-box-shadow:0px 0px 24px #074080 inset !important; box-shadow:0px 0px 24px #074080 inset !important;}
 
-<<<<<<< HEAD
 .selected_day{
 background: #d9d9d9 !important;
 background: -moz-linear-gradient(top,  #d9d9d9 0%, #d9d9d9 100%) !important;
@@ -52,8 +51,6 @@ background: linear-gradient(to bottom,  #d9d9d9 0%,#d9d9d9 100%) !important;
 filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#d9d9d9', endColorstr='#d9d9d9',GradientType=0 ) !important; color:#FFF  !important; font-weight:bold; -moz-box-shadow:0px 0px 18px #d9d9d9 inset; -webkit-box-shadow:0px 0px 18px #d9d9d9 inset; box-shadow:0px 0px 18px #d9d9d9 inset;
 }
 
-=======
->>>>>>> 87756af1f70f5e575c98bc876f59e066f53fcd85
 #table_month_link ul{margin: 0;padding: 0;list-style-type: none;}
 #table_month_link ul li { display: inline; }
 
