@@ -3,19 +3,33 @@
 
 <div>
     <a href="<?php echo $this->url('point', array('action'=>'nextMonth'));?>">
+<<<<<<< HEAD
         <img class="month_up" src="<?php echo $this->basePath('img/up.png') ?>" height="30" width="30">
     </a>
     <a href="<?php echo $this->url('point', array('action'=>'nextYear'));?>">
         <img class="year_up" src="<?php echo $this->basePath('img/up.png') ?>" height="30" width="30">
+=======
+        <img class="month_up" src="<?php echo $this->basePath('img/up.png') ?>" height="25" width="25">
+    </a>
+    <a href="<?php echo $this->url('point', array('action'=>'nextYear'));?>">
+        <img class="year_up" src="<?php echo $this->basePath('img/up.png') ?>" height="25" width="25">
+>>>>>>> 87756af1f70f5e575c98bc876f59e066f53fcd85
     </a>
 </div>
 <div><h2><?php echo $month_label.'    '.$year; ?></h2></div>
 <div>
     <a href="<?php echo $this->url('point', array('action'=>'previousMonth'));?>">
+<<<<<<< HEAD
         <img class="month_down" src="<?php echo $this->basePath('img/down.png') ?>" height="30" width="30">
     </a>
     <a href="<?php echo $this->url('point', array('action'=>'previousYear'));?>">
         <img class="year_down" src="<?php echo $this->basePath('img/down.png') ?>" height="30" width="30">
+=======
+        <img class="month_down" src="<?php echo $this->basePath('img/down.png') ?>" height="25" width="25">
+    </a>
+    <a href="<?php echo $this->url('point', array('action'=>'previousYear'));?>">
+        <img class="year_down" src="<?php echo $this->basePath('img/down.png') ?>" height="25" width="25">
+>>>>>>> 87756af1f70f5e575c98bc876f59e066f53fcd85
     </a>
 </div>
 
@@ -114,7 +128,15 @@ echo $calendar;
 
 ?>
 
+<<<<<<< HEAD
 <h3></h3>
+=======
+<h3>
+<?php
+    echo 'Date: ' . $selected_date;
+?>
+</h3>
+>>>>>>> 87756af1f70f5e575c98bc876f59e066f53fcd85
 
 <?php
     if (!($month > date('n') && $year >= date('Y'))){
@@ -128,14 +150,16 @@ echo $calendar;
 
 <table class="table">
 <tr>
-    <th>Date</th>
     <th>Schedule</th>
     <th>Note</th>
     <th>&nbsp;</th>
 </tr>
 <?php foreach ($points as $point) : ?>
 <tr>
+<<<<<<< HEAD
     <td><?php echo $this->escapeHtml(substr($point->date, 6, 2) . "/" . substr($point->date, 4, 2) . "/" . substr($point->date, 0, 4) );?></td>
+=======
+>>>>>>> 87756af1f70f5e575c98bc876f59e066f53fcd85
     <td width="30px"><?php echo $this->escapeHtml($point->schedule);?></td>
     <td width="80%"><?php echo $this->escapeHtml($point->note);?></td>
     <td width="120px">

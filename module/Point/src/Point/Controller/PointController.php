@@ -163,7 +163,10 @@ class PointController extends AbstractActionController
         $month = substr($date, 4, 2);
         $year = substr($date, 0, 4);
         $day = substr($date, 6, 2);
+<<<<<<< HEAD
         
+=======
+>>>>>>> 87756af1f70f5e575c98bc876f59e066f53fcd85
         $month_label = substr(date("F", strtotime($date)), 0, 3);
 
         // Redirect to list of points
