@@ -1,19 +1,22 @@
-<div style="display:block">
-    <div>
-        <a href="<?php echo $this->url('point', array('action'=>'nextMonth'));?>">
-            <img class="month_up" src="<?php echo $this->basePath('img/up.png') ?>" height="30" width="30">
+<div>
+    <div style="display:inline-flex">
+        <a href="<?php echo $this->url('point', array('action'=>'previousMonth'));?>">
+            <img class="month_up" src="<?php echo $this->basePath('img/left.png') ?>" height="30" width="30">
         </a>
-        <a href="<?php echo $this->url('point', array('action'=>'nextYear'));?>">
-            <img class="year_up" src="<?php echo $this->basePath('img/up.png') ?>" height="30" width="30">
+        <div><h2><?php echo $month_label; ?></h2></div>
+        <a href="<?php echo $this->url('point', array('action'=>'nextMonth'));?>">
+            <img class="month_down" src="<?php echo $this->basePath('img/right.png') ?>" height="30" width="30">
         </a>
     </div>
-    <div><h2><?php echo $month_label.'    '.$year; ?></h2></div>
-    <div>
-        <a href="<?php echo $this->url('point', array('action'=>'previousMonth'));?>">
-            <img class="month_down" src="<?php echo $this->basePath('img/down.png') ?>" height="30" width="30">
-        </a>
+    
+    <div style="display:inline-flex">
+        
         <a href="<?php echo $this->url('point', array('action'=>'previousYear'));?>">
-            <img class="year_down" src="<?php echo $this->basePath('img/down.png') ?>" height="30" width="30">
+            <img class="year_up" src="<?php echo $this->basePath('img/left.png') ?>" height="30" width="30">
+        </a>
+        <div><h2><?php echo $year; ?></h2></div>
+        <a href="<?php echo $this->url('point', array('action'=>'nextYear'));?>">
+            <img class="year_down" src="<?php echo $this->basePath('img/right.png') ?>" height="30" width="30">
         </a>
     </div>
 </div>
