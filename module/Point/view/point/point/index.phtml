@@ -58,8 +58,6 @@ for($list_day = 1; $list_day <= $days_in_month; $list_day++):
             $currentday='';    
         }
     }
-
-    
     
     // Add in the day number
     if( ($list_day <= date('d') && $month == date('n') && $year == date('Y')) ||
@@ -112,6 +110,7 @@ $calendar.= '</table>';
 
 echo $calendar;
 
+echo '<h6>Horas trabalhadas no mês: ' . $worked_hours_month.'</h6>';
 //==============END CALENDAR===========
 
 ?>
@@ -146,7 +145,13 @@ echo $calendar;
     </td>
 </tr>
 <?php endforeach; ?>
+<tr>
+    <td>
+        
+    </td>
+    <td>
+         <?php echo $worked_hours_day; ?>
+    </td>
+
+</tr>
 </table>
-<div>
-    <?php echo $hours_worked; ?>
-</div>

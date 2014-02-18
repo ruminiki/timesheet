@@ -15,7 +15,6 @@ class PointController extends AbstractActionController
         
     public function indexAction()
     {
-        
         $container = new Container('selectedDate');
 
         if ( empty($container->selectedDate) || is_null($container->selectedDate) ){
@@ -33,8 +32,8 @@ class PointController extends AbstractActionController
             'day' => date_format($date,'d'),
             'month_label' => substr(date("F", strtotime($container->selectedDate)), 0, 3),
             'selected_date' => date_format($date,'d')."/".date_format($date,'m')."/".date_format($date,'Y'),
-            'worked_hours' => $this->getWorkedHoursTable()->getWorkedHours($container->selectedDate),
-            //'points' => $this->getPointTable()->fetchAll(),
+            'worked_hours_day' => $this->getWorkedHoursTable()->getWorkedHours($container->selectedDate),
+            'worked_hours_month' => $this->getWorkedHoursTable()->getSumWorkedHoursMonth(date_format($date,'m')),
         ));
 
     }
@@ -68,7 +67,8 @@ class PointController extends AbstractActionController
             'year' => $year,
             'day' => $day,
             'month_label' => $month_label,
-            'worked_hours' => $this->getWorkedHoursTable()->getWorkedHours($container->selectedDate),
+            'worked_hours_day' => $this->getWorkedHoursTable()->getWorkedHours($container->selectedDate),
+            'worked_hours_month' => $this->getWorkedHoursTable()->getSumWorkedHoursMonth($month),
             'selected_date' => $day."/".$month."/".$year,
         ));
 
@@ -104,7 +104,8 @@ class PointController extends AbstractActionController
             'year' => $year,
             'day' => $day,
             'month_label' => $month_label,
-            'worked_hours' => $this->getWorkedHoursTable()->getWorkedHours($container->selectedDate),
+            'worked_hours_day' => $this->getWorkedHoursTable()->getWorkedHours($container->selectedDate),
+            'worked_hours_month' => $this->getWorkedHoursTable()->getSumWorkedHoursMonth($month),
             'selected_date' => $day."/".$month."/".$year,
         ));
 
@@ -130,7 +131,8 @@ class PointController extends AbstractActionController
             'year' => $year,
             'day' => $day,
             'month_label' => $month_label,
-            'worked_hours' => $this->getWorkedHoursTable()->getWorkedHours($container->selectedDate),
+            'worked_hours_day' => $this->getWorkedHoursTable()->getWorkedHours($container->selectedDate),
+            'worked_hours_month' => $this->getWorkedHoursTable()->getSumWorkedHoursMonth($month),
             'selected_date' => $day."/".$month."/".$year,
         ));
 
@@ -155,7 +157,8 @@ class PointController extends AbstractActionController
             'year' => $year,
             'day' => $day,
             'month_label' => $month_label,
-            'worked_hours' => $this->getWorkedHoursTable()->getWorkedHours($container->selectedDate),
+            'worked_hours_day' => $this->getWorkedHoursTable()->getWorkedHours($container->selectedDate),
+            'worked_hours_month' => $this->getWorkedHoursTable()->getSumWorkedHoursMonth($month),
             'selected_date' => $day."/".$month."/".$year,
         ));
 
@@ -184,8 +187,9 @@ class PointController extends AbstractActionController
             'year' => $year,
             'day' => $day,
             'month_label' => $month_label,
-            'worked_hours' => $this->getWorkedHoursTable()->getWorkedHours($container->selectedDate),
             'selected_date' => $day."/".$month."/".$year,
+            'worked_hours_day' => $this->getWorkedHoursTable()->getWorkedHours($container->selectedDate),
+            'worked_hours_month' => $this->getWorkedHoursTable()->getSumWorkedHoursMonth($month),
         ));
 
         return $viewModel->setTemplate('point/point/index.phtml');
@@ -322,8 +326,6 @@ class PointController extends AbstractActionController
         $index = 1;
         $points->buffer();
 
-        //$f = fopen("/tmp/time.log", "w");
-
         foreach ($points as $point){
             
             if ( $index % 2 == 0 ){
@@ -332,9 +334,6 @@ class PointController extends AbstractActionController
                 $b = new DateTime($point->schedule);
 
                 $interval = $a->diff($b);
-
-                //fwrite($f, $point->schedule . " - " . $point_aux->schedule . '\n');
-                //fwrite($f, 'P: ' . $interval->format("%H:%I:%S") . '     ');
 
                 array_push($worked_hours_interval, $interval->format("%H:%I:%S"));    
 
@@ -345,11 +344,6 @@ class PointController extends AbstractActionController
             $index++;
 
         }    
-
-        //fwrite($f, implode(",", $worked_hours_interval));
-        //fwrite($f, count($worked_hours_interval));
-
-        
 
         for ($i = 0; $i < count($worked_hours_interval); $i++){
             if ( $i == 0 ){
@@ -362,13 +356,10 @@ class PointController extends AbstractActionController
 
                 $seconds = $t1 + $t2;
 
-                //$worked_hours = date("H:i:s",$seconds);
-                $worked_hours = date("H:i", $midnight + $seconds);
+                $worked_hours = date("H:i:s", $midnight + $seconds);
             }
-            //fwrite($f, 'W: ' . $worked_hours . "    ");
         }
         
-        //fclose($f);
         $this->getWorkedHoursTable()->saveWorkedHours($date, $worked_hours);
 
     }
