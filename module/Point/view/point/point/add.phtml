@@ -1,19 +1,22 @@
 <?php
-// module/Point/view/point/point/add.phtml:
+	// module/Point/view/point/point/add.phtml:
+	$title = 'Add new point';
+	$this->headTitle($title);
 
-$title = 'Add new point';
-$this->headTitle($title);
 ?>
-<h1><?php echo $this->escapeHtml($title); ?></h1>
-<?php
-$form = $this->form;
-$form->setAttribute('action', $this->url('point', array('action' => 'add')));
-$form->prepare();
 
-echo $this->form()->openTag($form);
-echo $this->formHidden($form->get('id'));
-echo $this->formRow($form->get('date'));
-echo $this->formRow($form->get('schedule'));
-echo $this->formRow($form->get('note'));
-echo $this->formSubmit($form->get('submit'));
-echo $this->form()->closeTag();
+<h1><?php echo $this->escapeHtml($title); ?></h1>
+
+<?php
+	$form = $this->form;
+	$form->setAttribute('action', $this->url('point', array('action' => 'add')));
+	$form->prepare();
+
+	echo $this->form()->openTag($form);
+	echo $this->formHidden($form->get('id'));
+	echo $this->formRow($form->get('date'));
+	echo $this->formRow($form->get('schedule'));
+	echo $this->formRow($form->get('note'));
+	echo $this->formSubmit($form->get('submit'));
+	echo $this->form()->closeTag();
+?>

@@ -112,14 +112,19 @@ $calendar.= '</tr>';
 $calendar.= '</table>';
 
 echo $calendar;
-
-echo '<h6>Horas trabalhadas no mês: ' . $worked_hours_month.'</h6>';
-//==============END CALENDAR===========
-
 ?>
 
-<h3></h3>
-
+<div style="display:inline-flex; line-height:33px">
+    <h6>Horas trabalhadas no mês: <?php echo $worked_hours_month; ?></h6>
+    &nbsp;
+    <p>
+        <a href="<?php echo $this->url('point', array('action'=>'add'));?>">Dias úteis?</a>
+    </p>
+    &nbsp;
+    <p>
+        <a href="<?php echo $this->url('point', array('action'=>'add'));?>">Saldo inicial?</a>
+    </p>
+</div>
 <?php
     if (!($month > date('n') && $year >= date('Y'))){
 ?>
