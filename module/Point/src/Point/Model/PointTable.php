@@ -36,6 +36,23 @@ class PointTable
         return $resultSet;
     }
 
+    public function fetchAllByMonth($month)
+    {
+        $sql = "SELECT ".
+                    "p.date, ".
+                    "p.schedule, ".
+                    "p.note, ".
+                    "w.hours ".
+                "FROM point p ".
+                "INNER JOIN ".
+                    "worked_hours w ON w.date = p.date ".
+                "WHERE ".
+                    "substring(p.date,5,2) = '".$month."'";
+
+        $statement = $this->tableGateway->adapter->query($sql); 
+        return $statement->execute();
+    }
+
     public function getPoint($id)
     {
         $id  = (int) $id;

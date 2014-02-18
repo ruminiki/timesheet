@@ -1,0 +1,63 @@
+<table class="table">
+
+<tr>
+    <th>Date</th>
+    <th>S1</th>
+    <th>S2</th>
+    <th>S3</th>
+    <th>S4</th>
+    <th>Worked</th>
+    <th>&nbsp;</th>
+</tr>
+
+<?php 
+
+$date  = "";
+$hours = "";
+
+foreach ($points as $point) :
+
+    if (empty($date) || $date != $point['date']){
+        if ( !empty($date) ){
+            
+            echo '<td>';
+            echo $hours;
+            echo "</td>";
+            
+            echo "</tr>";
+        }
+        $date  = $point['date'];
+        $hours = $point['hours'];
+        
+        echo "<tr>";
+        echo "<td>";
+        $formated_date = substr($point['date'], 6, 2) . "/";
+        $formated_date.= substr($point['date'], 4, 2) . "/";
+        $formated_date.= substr($point['date'], 0, 4);
+
+        echo $formated_date;
+        echo "</td>";
+
+        echo '<td>';
+        echo $this->escapeHtml($point['schedule']);
+        echo "</td>";        
+
+        
+
+    }else{
+        if ( $date == $point['date']){
+            echo '<td>';
+            echo $this->escapeHtml($point['schedule']);
+            echo "</td>";        
+
+            /*echo '<td width="80%">';
+            echo $this->escapeHtml($point['note']);
+            echo "</td>";*/
+        }
+    }
+
+endforeach;
+
+?>
+
+</table>

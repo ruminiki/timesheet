@@ -10,12 +10,22 @@
 return array(
     'router' => array(
         'routes' => array(
-            'home' => array(
+            'point' => array(
                 'type' => 'Zend\Mvc\Router\Http\Literal',
                 'options' => array(
                     'route'    => '/',
                     'defaults' => array(
                         'controller' => 'Point\Controller\Point',
+                        'action'     => 'index',
+                    ),
+                ),
+            ),
+            'report' => array(
+                'type' => 'Zend\Mvc\Router\Http\Literal',
+                'options' => array(
+                    'route'    => '/',
+                    'defaults' => array(
+                        'controller' => 'Point\Controller\Report',
                         'action'     => 'index',
                     ),
                 ),

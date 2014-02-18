@@ -3,6 +3,7 @@ return array(
     'controllers' => array(
         'invokables' => array(
             'Point\Controller\Point' => 'Point\Controller\PointController',
+            'Point\Controller\Report' => 'Point\Controller\ReportController',
         ),
     ),
      // The following section is new and should be added to your file
