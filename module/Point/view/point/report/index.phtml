@@ -1,63 +1,57 @@
+
+<!--- FORM -->
+
+<form action="/report/runReport" method="post" name="report" id="report">
+    <div class="form-group" style="width:250px;display:inline-flex;top:5px;padding: 5px;line-height: 53px;">
+        <label>Mês/Ano</label>
+        <input type="text" readonly="false" name="datepicker-date-report" id="datepicker-date-report"
+                class="form-control" style="width:120px;display:inline-flex;top:5px;margin:5px">
+        <input type="submit" name="submit" class="btn btn-primary" id="submitbutton" value="Enviar" style="margin: auto;margin-bottom: 14px;">
+    </div>
+</form>
+
+<h3></h3>
+
+<!--============= REPORT -->
 <table class="table">
 
 <tr>
     <th>Date</th>
-    <th>S1</th>
-    <th>S2</th>
-    <th>S3</th>
-    <th>S4</th>
+    <th>Schedules</th>
     <th>Worked</th>
     <th>&nbsp;</th>
 </tr>
 
 <?php 
 
-$date  = "";
-$hours = "";
-
 foreach ($points as $point) :
 
-    if (empty($date) || $date != $point['date']){
-        if ( !empty($date) ){
-            
-            echo '<td>';
-            echo $hours;
-            echo "</td>";
-            
-            echo "</tr>";
-        }
-        $date  = $point['date'];
-        $hours = $point['hours'];
-        
-        echo "<tr>";
-        echo "<td>";
-        $formated_date = substr($point['date'], 6, 2) . "/";
-        $formated_date.= substr($point['date'], 4, 2) . "/";
-        $formated_date.= substr($point['date'], 0, 4);
+    echo "<tr>";
+    echo "<td>";
 
-        echo $formated_date;
-        echo "</td>";
+    $formated_date = substr($point['date'], 6, 2) . "/";
+    $formated_date.= substr($point['date'], 4, 2) . "/";
+    $formated_date.= substr($point['date'], 0, 4);
 
-        echo '<td>';
-        echo $this->escapeHtml($point['schedule']);
-        echo "</td>";        
+    echo $formated_date;
+    echo "</td>";
 
-        
-
-    }else{
-        if ( $date == $point['date']){
-            echo '<td>';
-            echo $this->escapeHtml($point['schedule']);
-            echo "</td>";        
-
-            /*echo '<td width="80%">';
-            echo $this->escapeHtml($point['note']);
-            echo "</td>";*/
-        }
-    }
+    echo '<td>';
+    echo $this->escapeHtml($point['schedule']);
+    echo "</td>";        
+    echo '<td>';
+    echo $this->escapeHtml($point['worked_hours_day']);
+    echo "</td>";        
+    echo '<td width="60%"></td>';
 
 endforeach;
 
+    echo "<tr><td></td>";
+    echo "<td style='text-align:right'>Worked in " . $month_label . ": </td>";        
+    echo '<td>';
+    echo $worked_hours_month;
+    echo "</td>";        
+    echo '<td width="50%"></td>';
 ?>
 
 </table>

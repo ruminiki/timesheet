@@ -43,14 +43,14 @@ class WorkedHoursTable
         return $row->hours;
     }
 
-    public function getSumWorkedHoursMonth($month)
+    public function getSumWorkedHoursMonth($year_month)
     {
         //$rowset = $this->tableGateway->select(array('date' => $month));
         /*$rowSet = $this->tableGateway->select()->from('worked_hours', array('sum(hours) as total'))->where("substring(date,5,2) = '" . $month . "'");
         $row = $rowSet->current();
         return $row->total; */
 
-        $sql = "select SEC_TO_TIME(SUM(TIME_TO_SEC(hours))) as total from worked_hours where substring(date,5,2) = '".$month."'";
+        $sql = "select SEC_TO_TIME(SUM(TIME_TO_SEC(hours))) as total from worked_hours where substring(date,1,6) = '".$year_month."'";
         $statement = $this->tableGateway->adapter->query($sql); 
 
         $rowSet = $statement->execute();

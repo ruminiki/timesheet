@@ -11,10 +11,12 @@ class PointForm extends Form
         parent::__construct('point');
 
         $this->setAttribute('method', 'post');
+        
         $this->add(array(
             'name' => 'id',
             'type' => 'Hidden',
         ));
+        
         $this->add(array(
             'name' => 'date',
             'type' => 'Text',
@@ -27,6 +29,7 @@ class PointForm extends Form
                 'readonly' => 'readonly',
             ),
         ));
+        
         $this->add(array(
             'name' => 'schedule',
             'type' => 'Text',

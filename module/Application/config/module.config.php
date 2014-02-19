@@ -10,7 +10,7 @@
 return array(
     'router' => array(
         'routes' => array(
-            'point' => array(
+            'home' => array(
                 'type' => 'Zend\Mvc\Router\Http\Literal',
                 'options' => array(
                     'route'    => '/',
@@ -20,16 +20,18 @@ return array(
                     ),
                 ),
             ),
+
             'report' => array(
                 'type' => 'Zend\Mvc\Router\Http\Literal',
                 'options' => array(
-                    'route'    => '/',
+                    'route'    => '/report',
                     'defaults' => array(
                         'controller' => 'Point\Controller\Report',
                         'action'     => 'index',
                     ),
                 ),
             ),
+            
             // The following is a route to simplify getting started creating
             // new controllers and actions without needing to create a new
             // module. Simply drop new controllers in, and you can access them

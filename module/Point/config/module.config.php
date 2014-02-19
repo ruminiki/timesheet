@@ -12,9 +12,7 @@ return array(
             'point' => array(
                 'type'    => 'segment',
                 'options' => array(
-                    //'route'    => '/point[/][:action][/][:id][:date]',
                     'route'    => '/point[/][:action][/][:id][/][:date]',
-                    //'route'    => '/point[/][:action][/:date]',
                     'constraints' => array(
                         'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
                         'date'   => '[0-9]+',
@@ -26,6 +24,21 @@ return array(
                     ),
                 ),
             ),
+
+            'report' => array(
+                'type'    => 'segment',
+                'options' => array(
+                    'route'    => '/report[/][:action][/]',
+                    'constraints' => array(
+                        'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                    ),
+                    'defaults' => array(
+                        'controller' => 'Point\Controller\Report',
+                        'action'     => 'index',
+                    ),
+                ),
+            ),
+            
         ),
     ),
 

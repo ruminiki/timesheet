@@ -36,18 +36,15 @@ class PointTable
         return $resultSet;
     }
 
-    public function fetchAllByMonth($month)
+    public function fetchAllByMonth($year_month)
     {
-        $sql = "SELECT ".
-                    "p.date, ".
-                    "p.schedule, ".
-                    "p.note, ".
-                    "w.hours ".
-                "FROM point p ".
-                "INNER JOIN ".
-                    "worked_hours w ON w.date = p.date ".
-                "WHERE ".
-                    "substring(p.date,5,2) = '".$month."'";
+        
+        $sql =  "SELECT ".
+                    "p.date AS date,  ".
+                    "GROUP_CONCAT(schedule ORDER BY schedule ASC SEPARATOR ' -- ') AS schedule, ".
+                    "w.hours as worked_hours_day ".
+                "FROM point p INNER JOIN worked_hours w on w.date = p.date and substring(w.date,1,6) = '" . $year_month . "' " .
+                "GROUP BY p.date";
 
         $statement = $this->tableGateway->adapter->query($sql); 
         return $statement->execute();
