@@ -38,134 +38,8 @@ class PointController extends AbstractActionController
 
     }
 
-    public function nextMonthAction(){
-
-        $container = new Container('selectedDate');
-        $date = date_create($container->selectedDate);
-        $day = date_format($date, 'd');
-        $month = date_format($date, 'm');
-        $year = date_format($date, 'Y');
-
-        if ( $month == '12'){
-            $month = '01';
-            $year = intval($year)+1;
-            $container->selectedDate = $year.$month.$day;
-        }else{
-            $month = intval($month) + 1;
-            if ( $month < 10 ){
-                $month = '0'.$month;
-            }
-            $container->selectedDate = $year.$month.$day;
-        }
-
-        $month_label = substr(date("F", strtotime($container->selectedDate)), 0, 3);
-
-        // Redirect to list of points
-         $viewModel = new ViewModel(array(
-            'points' => $this->getPointTable()->fetchAllByDay($container->selectedDate),
-            'month' => $month,
-            'year' => $year,
-            'day' => $day,
-            'month_label' => $month_label,
-            'worked_hours_day' => $this->getWorkedHoursTable()->getWorkedHours($container->selectedDate),
-            'worked_hours_month' => $this->getWorkedHoursTable()->getSumWorkedHoursMonth($month),
-            'selected_date' => $day."/".$month."/".$year,
-        ));
-
-        return $viewModel->setTemplate('point/point/index.phtml');
-    }
-
-    public function previousMonthAction(){
-
-        $container = new Container('selectedDate');
-        $date = date_create($container->selectedDate);
-        $day = date_format($date, 'd');
-        $month = date_format($date, 'm');
-        $year = date_format($date, 'Y');
-
-        if ( $month == '01'){
-            $month = '12';
-            $year = intval($year)-1;
-            $container->selectedDate = $year.$month.$day;
-        }else{
-            $month = intval($month) - 1;
-            if ( $month < 10 ){
-                $month = '0'.$month;
-            }
-            $container->selectedDate = $year.$month.$day;
-        }
-        
-        $month_label = substr(date("F", strtotime($container->selectedDate)), 0, 3);
-        
-        // Redirect to list of points
-         $viewModel = new ViewModel(array(
-            'points' => $this->getPointTable()->fetchAllByDay($container->selectedDate),
-            'month' => $month,
-            'year' => $year,
-            'day' => $day,
-            'month_label' => $month_label,
-            'worked_hours_day' => $this->getWorkedHoursTable()->getWorkedHours($container->selectedDate),
-            'worked_hours_month' => $this->getWorkedHoursTable()->getSumWorkedHoursMonth($month),
-            'selected_date' => $day."/".$month."/".$year,
-        ));
-
-        return $viewModel->setTemplate('point/point/index.phtml');
-    }
-
-    public function nextYearAction(){
-
-        $container = new Container('selectedDate');
-        $date = date_create($container->selectedDate);
-        $day = date_format($date, 'd');
-        $month = date_format($date, 'm');
-        $year = date_format($date, 'Y');
-        $month_label = substr(date("F", strtotime($container->selectedDate)), 0, 3);
-
-        $year = intval($year) + 1;
-        $container->selectedDate = $year.$month.$day;
-
-        // Redirect to list of points
-         $viewModel = new ViewModel(array(
-            'points' => $this->getPointTable()->fetchAllByDay($container->selectedDate),
-            'month' => $month,
-            'year' => $year,
-            'day' => $day,
-            'month_label' => $month_label,
-            'worked_hours_day' => $this->getWorkedHoursTable()->getWorkedHours($container->selectedDate),
-            'worked_hours_month' => $this->getWorkedHoursTable()->getSumWorkedHoursMonth($month),
-            'selected_date' => $day."/".$month."/".$year,
-        ));
-
-        return $viewModel->setTemplate('point/point/index.phtml');
-    }
-
-    public function previousYearAction(){
-        $container = new Container('selectedDate');
-        $date = date_create($container->selectedDate);
-        $day = date_format($date, 'd');
-        $month = date_format($date, 'm');
-        $year = date_format($date, 'Y');
-        $month_label = substr(date("F", strtotime($container->selectedDate)), 0, 3);
-
-        $year = intval($year) - 1;
-        $container->selectedDate = $year.$month.$day;
-
-        // Redirect to list of points
-         $viewModel = new ViewModel(array(
-            'points' => $this->getPointTable()->fetchAllByDay($container->selectedDate),
-            'month' => $month,
-            'year' => $year,
-            'day' => $day,
-            'month_label' => $month_label,
-            'worked_hours_day' => $this->getWorkedHoursTable()->getWorkedHours($container->selectedDate),
-            'worked_hours_month' => $this->getWorkedHoursTable()->getSumWorkedHoursMonth($month),
-            'selected_date' => $day."/".$month."/".$year,
-        ));
-
-        return $viewModel->setTemplate('point/point/index.phtml');
-    }
-
-    public function changeMonthAction(){
+    public function changeMonthAction()
+    {
 
         $param = $this->date = $this->params()->fromRoute('date', 0);
 
@@ -199,7 +73,8 @@ class PointController extends AbstractActionController
         return $viewModel->setTemplate('point/point/index.phtml');
     }
 
-    public function fetchByDayAction(){
+    public function fetchByDayAction()
+    {
         
         $date = $this->params()->fromRoute('date', 0);
 

@@ -1,14 +1,13 @@
 <?php 
     
     $url = "'" . $this->url('point',array('action'=>'changeMonth', 'date' => '')) . "'";
-    //$calendar.= '<td class="calendar-day ' . $currentday . '" onclick="window.location.href='.$url.'">';
 
-echo "<div class='form-group' style='width:250px;display:inline-flex;line-height: 53px;'>";
-echo "<label>Mês/Ano</label>";
-echo '<input type="text" name="datepicker-date-calendar" id="datepicker-date-calendar" 
-        class="form-control" style="width:120px;display:inline-flex;top:5px;margin:5px"
-        onchange="onChangeDateCalendar(this,' . $url . ')" value="' . $year . ' ' . $month . '"/>';
-echo "</div>";
+    echo "<div class='form-group' style='width:250px;display:inline-flex;line-height: 53px;'>";
+    echo "<label>Mês/Ano</label>";
+    echo '<input type="text" name="datepicker-date-calendar" id="datepicker-date-calendar" 
+            class="form-control" style="width:120px;display:inline-flex;top:5px;margin:5px"
+            onchange="onChangeDateCalendar(this,' . $url . ')" value="' . $year . ' ' . $month . '"/>';
+    echo "</div>";
 
 ?>
 
@@ -108,6 +107,8 @@ echo $calendar;
 
 <div style="display:inline-flex; line-height:33px">
     <h6>Horas trabalhadas no mês: <?php echo $worked_hours_month; ?></h6>
+    &nbsp;
+    &nbsp;
     &nbsp;
     <p>
         <a href="<?php echo $this->url('point', array('action'=>'add'));?>">Dias úteis?</a>

@@ -19,6 +19,8 @@ class ReportController extends AbstractActionController
               
         return new ViewModel(array(
             'points' => $points,
+            'year' => date('Y'),
+            'month' => date('m'),
             'worked_hours_month' => $this->getWorkedHoursTable()->getSumWorkedHoursMonth(date('Y').date('m')),
             'month_label' => date('F'),
         ));
