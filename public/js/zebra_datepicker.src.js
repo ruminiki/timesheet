@@ -891,7 +891,7 @@
                         });
 
                         // create the actual calendar icon (show a disabled icon if the element is disabled)
-                        icon = jQuery('<button type="button" class="Zebra_DatePicker_Icon' + ($element.attr('disabled') == 'disabled' ? ' Zebra_DatePicker_Icon_Disabled' : '') + '">Pick a date</button>');
+                        icon = jQuery('<button type="button" class="Zebra_DatePicker_Icon' + ($element.attr('disabled') == 'disabled' ? ' Zebra_DatePicker_Icon_Disabled' : '') + '"></button>');
 
                         // a reference to the icon, as a global property
                         plugin.icon = icon;
