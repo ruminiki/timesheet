@@ -1,14 +1,18 @@
 
 <!--- FORM -->
+<?php 
+    
+    $url = "'" . $this->url('report',array('action'=>'runReport', 'date' => '')) . "'";
+    //$calendar.= '<td class="calendar-day ' . $currentday . '" onclick="window.location.href='.$url.'">';
 
-<form action="/report/runReport" method="post" name="report" id="report">
-    <div class="form-group" style="width:250px;display:inline-flex;top:5px;padding: 5px;line-height: 53px;">
-        <label>Mês/Ano</label>
-        <input type="text" readonly="false" name="datepicker-date-report" id="datepicker-date-report"
-                class="form-control" style="width:120px;display:inline-flex;top:5px;margin:5px">
-        <input type="submit" name="submit" class="btn btn-primary" id="submitbutton" value="Enviar" style="margin: auto;margin-bottom: 14px;">
-    </div>
-</form>
+echo "<div class='form-group' style='width:250px;display:inline-flex;line-height: 53px;'>";
+echo "<label>Mês/Ano</label>";
+echo '<input type="text" name="datepicker-date-calendar" id="datepicker-date-calendar" 
+        class="form-control" style="width:120px;display:inline-flex;top:5px;margin:5px"
+        onchange="onChangeDateCalendar(this,' . $url . ')" value="' . $year . ' ' . $month . '"/>';
+echo "</div>";
+
+?>
 
 <h3></h3>
 

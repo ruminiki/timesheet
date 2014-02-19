@@ -27,7 +27,27 @@ class ReportController extends AbstractActionController
 
     public function runReportAction()
     {
-        $request = $this->getRequest();
+
+        $year_month = $this->params()->fromRoute('date', 0);
+        $year_month = str_replace(' ', '', $year_month);
+        
+        $year = substr($year_month, 0, 4);
+        $month = substr($year_month, 4, 2);
+
+        $points = $this->getPointTable()->fetchAllByMonth($year_month);
+              
+        $viewModel = new ViewModel(array(
+            'points' => $points,
+            'year' => $year,
+            'month' => $month,
+            'worked_hours_month' => $this->getWorkedHoursTable()->getSumWorkedHoursMonth($year_month),
+            'month_label' => date("F", strtotime($year_month.'01')),
+        ));
+
+        return $viewModel->setTemplate('point/report/index.phtml');
+
+
+        /*$request = $this->getRequest();
         if ($request->isPost()) {
             
             $year_month = $request->getPost('datepicker-date-report');
@@ -43,7 +63,7 @@ class ReportController extends AbstractActionController
 
             return $viewModel->setTemplate('point/report/index.phtml');
 
-        }
+        }*/
     }
 
     public function getPointTable()

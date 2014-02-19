@@ -28,7 +28,7 @@ return array(
             'report' => array(
                 'type'    => 'segment',
                 'options' => array(
-                    'route'    => '/report[/][:action][/]',
+                    'route'    => '/report[/][:action][/][:date]',
                     'constraints' => array(
                         'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
                     ),

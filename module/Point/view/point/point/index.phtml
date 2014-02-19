@@ -1,25 +1,17 @@
-<div>
-    <div style="display:inline-flex">
-        <a href="<?php echo $this->url('point', array('action'=>'previousMonth'));?>">
-            <img class="month_up" src="<?php echo $this->basePath('img/left.png') ?>" height="30" width="30">
-        </a>
-        <div><h2><?php echo $month_label; ?></h2></div>
-        <a href="<?php echo $this->url('point', array('action'=>'nextMonth'));?>">
-            <img class="month_down" src="<?php echo $this->basePath('img/right.png') ?>" height="30" width="30">
-        </a>
-    </div>
+<?php 
     
-    <div style="display:inline-flex">
-        
-        <a href="<?php echo $this->url('point', array('action'=>'previousYear'));?>">
-            <img class="year_up" src="<?php echo $this->basePath('img/left.png') ?>" height="30" width="30">
-        </a>
-        <div><h2><?php echo $year; ?></h2></div>
-        <a href="<?php echo $this->url('point', array('action'=>'nextYear'));?>">
-            <img class="year_down" src="<?php echo $this->basePath('img/right.png') ?>" height="30" width="30">
-        </a>
-    </div>
-</div>
+    $url = "'" . $this->url('point',array('action'=>'changeMonth', 'date' => '')) . "'";
+    //$calendar.= '<td class="calendar-day ' . $currentday . '" onclick="window.location.href='.$url.'">';
+
+echo "<div class='form-group' style='width:250px;display:inline-flex;line-height: 53px;'>";
+echo "<label>Mês/Ano</label>";
+echo '<input type="text" name="datepicker-date-calendar" id="datepicker-date-calendar" 
+        class="form-control" style="width:120px;display:inline-flex;top:5px;margin:5px"
+        onchange="onChangeDateCalendar(this,' . $url . ')" value="' . $year . ' ' . $month . '"/>';
+echo "</div>";
+
+?>
+
 
 <?php
 //==============DRAW CALENDAR===========
