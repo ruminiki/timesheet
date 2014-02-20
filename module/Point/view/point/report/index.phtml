@@ -31,18 +31,18 @@ foreach ($points as $point) :
     echo "<tr>";
     echo "<td>";
 
-    $formated_date = substr($point['date'], 6, 2) . "/";
-    $formated_date.= substr($point['date'], 4, 2) . "/";
-    $formated_date.= substr($point['date'], 0, 4);
+    $formated_date = substr($point->date, 6, 2) . "/";
+    $formated_date.= substr($point->date, 4, 2) . "/";
+    $formated_date.= substr($point->date, 0, 4);
 
-    echo $formated_date;
+    echo $formated_date . ' - '. $point->day_of_week;
     echo "</td>";
 
     echo '<td>';
-    echo $this->escapeHtml($point['schedule']);
+    echo $this->escapeHtml($point->schedule);
     echo "</td>";        
     echo '<td>';
-    echo $this->escapeHtml($point['worked_hours_day']);
+    echo $this->escapeHtml($point->worked_hours_day);
     echo "</td>";        
     echo '<td width="60%"></td>';
 

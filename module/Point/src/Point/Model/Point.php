@@ -14,7 +14,10 @@ class Point implements InputFilterAwareInterface
     public $schedule;
     public $sequence;
     public $note;
-    public $worked_hours;//is an object WorkedHours.
+    //transient
+    public $worked_hours_day;
+    //transient
+    public $day_of_week;
     protected $inputFilter;    
 
     public function exchangeArray($data)
