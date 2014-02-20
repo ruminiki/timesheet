@@ -12,6 +12,7 @@ class PointController extends AbstractActionController
 {
     protected $pointTable;
     protected $workedHoursTable;
+    protected $dayNotWorkedTable;
         
     public function indexAction()
     {
@@ -33,7 +34,7 @@ class PointController extends AbstractActionController
             'month_label' => substr(date("F", strtotime($container->selectedDate)), 0, 3),
             'selected_date' => date_format($date,'d')."/".date_format($date,'m')."/".date_format($date,'Y'),
             'worked_hours_day' => $this->getWorkedHoursTable()->getWorkedHours($container->selectedDate),
-            'worked_hours_month' => $this->getWorkedHoursTable()->getSumWorkedHoursMonth(date_format($date,'m')),
+            'worked_hours_month' => $this->getWorkedHoursTable()->getSumWorkedHoursMonth(date_format($date,'Y').date_format($date,'m')),
         ));
 
     }
@@ -66,7 +67,7 @@ class PointController extends AbstractActionController
             'day' => $day,
             'month_label' => $month_label,
             'worked_hours_day' => $this->getWorkedHoursTable()->getWorkedHours($container->selectedDate),
-            'worked_hours_month' => $this->getWorkedHoursTable()->getSumWorkedHoursMonth($month),
+            'worked_hours_month' => $this->getWorkedHoursTable()->getSumWorkedHoursMonth($year.$month),
             'selected_date' => $day."/".$month."/".$year,
         ));
 
@@ -98,7 +99,7 @@ class PointController extends AbstractActionController
             'month_label' => $month_label,
             'selected_date' => $day."/".$month."/".$year,
             'worked_hours_day' => $this->getWorkedHoursTable()->getWorkedHours($container->selectedDate),
-            'worked_hours_month' => $this->getWorkedHoursTable()->getSumWorkedHoursMonth($month),
+            'worked_hours_month' => $this->getWorkedHoursTable()->getSumWorkedHoursMonth($year.$month),
         ));
 
         return $viewModel->setTemplate('point/point/index.phtml');
@@ -215,7 +216,37 @@ class PointController extends AbstractActionController
             'point' => $this->getPointTable()->getPoint($id)
         );
     }
-    
+
+    public function markDayAsNotWorkedAction(){
+
+        $date = $this->params()->fromRoute('date', 0);
+
+        if (!$date) {
+            return $this->redirect()->toRoute('point');
+        }
+
+        $request = $this->getRequest();
+
+        if ($request->isPost()) {
+            $option = $request->getPost('option', 'Cancel');
+
+            if ($option == 'Save') {
+                $date = $request->getPost('date');
+                $reason = $request->getPost('reason');
+                $this->getDayNotWorkedTable()->markDayAsNotWorked($date, $reason);
+            }
+
+            // Redirect to list of points
+            return $this->redirect()->toRoute('point');
+        }
+        
+        return array(
+            'date' => $date,
+            'formated_date' => date_format(date_create($date), 'd/m/Y'),
+        );
+    }
+
+    ///===get tables
     public function getPointTable()
     {
         if (!$this->pointTable) {
@@ -234,6 +265,17 @@ class PointController extends AbstractActionController
         
         return $this->workedHoursTable;
     }
+
+    public function getDayNotWorkedTable()
+    {
+        if (!$this->dayNotWorkedTable) {
+            $sm = $this->getServiceLocator();
+            $this->dayNotWorkedTable = $sm->get('Point\Model\DayNotWorkedTable');
+        }
+        
+        return $this->dayNotWorkedTable;
+    }
+
 
     public function calculateWorkedHours($points, $date){
 

@@ -3,10 +3,16 @@ namespace Point;
 
 use Zend\Mvc\ModuleRouteListener;
 use Zend\Mvc\MvcEvent;
+
 use Point\Model\Point;
 use Point\Model\PointTable;
+
 use Point\Model\WorkedHours;
 use Point\Model\WorkedHoursTable;
+
+use Point\Model\DayNotWorked;
+use Point\Model\DayNotWorkedTable;
+
 use Zend\Db\ResultSet\ResultSet;
 use Zend\Db\TableGateway\TableGateway;
 
@@ -57,6 +63,17 @@ class Module
                     $resultSetPrototype = new ResultSet();
                     $resultSetPrototype->setArrayObjectPrototype(new WorkedHours());
                     return new TableGateway('worked_hours', $dbAdapter, null, $resultSetPrototype);
+                },
+                'Point\Model\DayNotWorkedTable' =>  function($sm) {
+                    $tableGateway = $sm->get('DayNotWorkedTableGateway');
+                    $table = new DayNotWorkedTable($tableGateway);
+                    return $table;
+                },
+                'DayNotWorkedTableGateway' => function ($sm) {
+                    $dbAdapter = $sm->get('Zend\Db\Adapter\Adapter');
+                    $resultSetPrototype = new ResultSet();
+                    $resultSetPrototype->setArrayObjectPrototype(new DayNotWorked());
+                    return new TableGateway('day_not_worked', $dbAdapter, null, $resultSetPrototype);
                 },
             ),
         );

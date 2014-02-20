@@ -108,14 +108,14 @@ echo $calendar;
 <div style="display:inline-flex; line-height:33px">
     <h6>Horas trabalhadas no mês: <?php echo $worked_hours_month; ?></h6>
     &nbsp;
-    &nbsp;
-    &nbsp;
     <p>
-        <a href="<?php echo $this->url('point', array('action'=>'add'));?>">Dias úteis?</a>
+        <a href="<?php echo $this->url('point', array('action'=>'markDayAsNotWorked', 'date' => $year.$month.$day ));?>">Não trabalhado</a>
     </p>
     &nbsp;
+    |
+    &nbsp;
     <p>
-        <a href="<?php echo $this->url('point', array('action'=>'add'));?>">Saldo inicial?</a>
+        <a href="<?php echo $this->url('point', array('action'=>'add'));?>">Banco de horas</a>
     </p>
 </div>
 <?php

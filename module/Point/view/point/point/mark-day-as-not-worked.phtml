@@ -1,0 +1,33 @@
+<?php
+// module/Point/view/point/point/mark-day-as-not-worked.phtml:
+
+$title = 'Marcar dia não trabalhado';
+$this->headTitle($title);
+?>
+<h4><?php echo $this->escapeHtml($title); ?></h4>
+
+<h6>Dias não trabalhados não são contabilizados no banco de horas</h6>
+
+<?php
+
+$url = $this->url('point', array(
+    'action' => 'markDayAsNotWorked',
+    'date' => $date,
+));
+
+?>
+<form action="<?php echo $url; ?>" method="post">
+
+	<div class='form-group'>
+		<input type="hidden" name="date" value="<?php echo $date; ?>" />
+		<label>Data</label>
+	    <input name="formated_date" class="form-control" value="<?php echo $formated_date;?>" readonly="readonly"/>
+
+	    <label>Motivo</label>
+	    <input type="text" name="reason" class="form-control"/>
+	    <h4></h4>	
+	    <input type="submit" name="option" value="Save" class="btn btn-primary"/>
+	    <input type="submit" name="option" value="Cancel" class="btn btn-warning"/>
+
+	</div>
+</form>
