@@ -24,4 +24,13 @@ class DayNotWorkedTable
         $this->tableGateway->insert($data);
     }
 
+    public function getDayNotWorkedMonth($year_month)
+    {
+        $sql = "select * from day_not_worked where substring(date,1,6) = '".$year_month."'";
+        $statement = $this->tableGateway->adapter->query($sql); 
+
+        $rowSet = $statement->execute();
+        return $rowSet;
+    }
+
 }

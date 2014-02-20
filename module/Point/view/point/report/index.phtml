@@ -39,10 +39,14 @@ foreach ($points as $point) :
     echo "</td>";
 
     echo '<td>';
-    echo $this->escapeHtml($point->schedule);
+    if ( !is_null($point->day_not_worked) && !is_null($point->day_not_worked->date) ){
+        echo $point->day_not_worked->reason;    
+    }else{
+        echo $this->escapeHtml($point->schedule);    
+    }
     echo "</td>";        
     echo '<td>';
-    echo $this->escapeHtml($point->worked_hours_day);
+    echo $this->escapeHtml($point->worked_hours->hours);
     echo "</td>";        
     echo '<td width="60%"></td>';
 

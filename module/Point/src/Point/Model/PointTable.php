@@ -6,10 +6,12 @@ use Zend\Db\Sql\Select;
 use Zend\Db\Sql\Where;
 use DateTime;
 use Point\Model\Point;
+use Point\Model\WorkedHours;
 
 class PointTable
 {
     protected $tableGateway;
+    protected $dayNotWorkedTable;
 
     public function __construct(TableGateway $tableGateway)
     {
@@ -38,6 +40,7 @@ class PointTable
         return $resultSet;
     }
 
+    //report
     public function fetchAllByMonth($year_month)
     {
         //year_month formato Ym   
@@ -69,7 +72,10 @@ class PointTable
                     $p->date = $point['date'];
                     $p->schedule = $point['schedule'];
                     $p->note = $point['note'];
-                    $p->worked_hours_day = $point['worked_hours_day'];
+                    $wh = new WorkedHours();
+                    $wh->date = $point['date'];
+                    $wh->hours = $point['worked_hours_day'];
+                    $p->worked_hours = $wh;
                     $p->day_of_week = $date->format('D');
 
                     array_push($result, $p);
@@ -83,7 +89,10 @@ class PointTable
                     $p->date = $date->format( 'Ymd' );
                     $p->schedule = "";
                     $p->note = "";
-                    $p->worked_hours_day = "";
+                    $wh = new WorkedHours();
+                    $wh->date = $date->format( 'Ymd' );
+                    $wh->hours = "";
+                    $p->worked_hours = $wh;
                     $p->day_of_week = $date->format('D');
                     array_push($result, $p); 
 
@@ -110,6 +119,30 @@ class PointTable
 
             }
         }
+
+        //carrega os dias não trabalhados no mês
+        $sql = "select date as date, reason as reason from day_not_worked where substring(date,1,6) = '".$year_month."'";
+        $statement = $this->tableGateway->adapter->query($sql); 
+
+        $days_not_worked = $statement->execute();
+
+        //$days_not_worked->buffer();
+        //$result->buffer();
+        //for( $i = 0; $i < count($days_not_worked); $i++ ){
+        //    $day_not_worked = $days_not_worked[$i];
+        foreach ( $days_not_worked as $day_not_worked ){
+            fwrite($f, $day_not_worked->reason);
+
+            foreach ( $result as $point ){
+                fwrite($f, $point->date . ' - ' . $day_not_worked->reason);
+                if ( $point->date == $day_not_worked->date ){
+                    $point->day_not_worked = $day_not_worked;  
+                } 
+
+            }
+
+        }
+
 
         fclose($f);
 
@@ -153,4 +186,15 @@ class PointTable
     {
         $this->tableGateway->delete(array('id' => $id));
     }
+
+    public function getDayNotWorkedTable()
+    {
+        if (!$this->dayNotWorkedTable) {
+            $sm = $this->getServiceLocator();
+            $this->dayNotWorkedTable = $sm->get('Point\Model\DayNotWorkedTable');
+        }
+        
+        return $this->dayNotWorkedTable;
+    }
+
 }
