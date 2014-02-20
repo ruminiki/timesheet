@@ -112,7 +112,7 @@ class PointController extends AbstractActionController
         //$date = $this->date = $this->params()->fromRoute('date', 0);
 
         $form = new PointForm();
-        $form->get('submit')->setValue('Salvar');
+        
         //retrieve selected date from session
         $container = new Container('selectedDate');
         //format date (Ymd) to (d/m/Y)
@@ -122,16 +122,25 @@ class PointController extends AbstractActionController
 
         $request = $this->getRequest();
         if ($request->isPost()) {
-            $point = new Point();
-            $form->setInputFilter($point->getInputFilter());
-            $form->setData($request->getPost());
 
-            if ($form->isValid()) {
-                $point->exchangeArray($form->getData());
-                //return date format do save in database
-                $point->date = date_format($date, 'Ymd');
-                $this->getPointTable()->savePoint($point);
+            $option = $request->getPost('option', 'Cancel');
 
+            if ($option == 'Save') {
+
+                $point = new Point();
+                $form->setInputFilter($point->getInputFilter());
+                $form->setData($request->getPost());
+
+                if ($form->isValid()) {
+                    $point->exchangeArray($form->getData());
+                    //return date format do save in database
+                    $point->date = date_format($date, 'Ymd');
+                    $this->getPointTable()->savePoint($point);
+
+                    // Redirect to list of points
+                    return $this->redirect()->toRoute('point');
+                }
+            }else{
                 // Redirect to list of points
                 return $this->redirect()->toRoute('point');
             }
@@ -161,7 +170,6 @@ class PointController extends AbstractActionController
 
         $form  = new PointForm();
         $form->bind($point);
-        $form->get('submit')->setAttribute('value', 'Salvar');
 
         $container = new Container('selectedDate');
         //format date (Ymd) to (d/m/Y)
@@ -171,15 +179,25 @@ class PointController extends AbstractActionController
 
         $request = $this->getRequest();
         if ($request->isPost()) {
-            $form->setInputFilter($point->getInputFilter());
-            $form->setData($request->getPost());
 
-            if ($form->isValid()) {
-                $point = $form->getData();
-                //return date format do save in database
-                $point->date = date_format($date, 'Ymd');
-                $this->getPointTable()->savePoint($point);
+            $option = $request->getPost('option', 'Cancel');
 
+            if ($option == 'Save') {
+
+                $form->setInputFilter($point->getInputFilter());
+                $form->setData($request->getPost());
+
+                if ($form->isValid()) {
+                    $point = $form->getData();
+                    //return date format do save in database
+                    $point->date = date_format($date, 'Ymd');
+                    $this->getPointTable()->savePoint($point);
+
+                    // Redirect to list of points
+                    return $this->redirect()->toRoute('point');
+                }
+
+            }else{
                 // Redirect to list of points
                 return $this->redirect()->toRoute('point');
             }

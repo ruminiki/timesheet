@@ -22,5 +22,9 @@ echo $this->formHidden($form->get('id'));
 echo $this->formRow($form->get('date'));
 echo $this->formRow($form->get('schedule'));
 echo $this->formRow($form->get('note'));
-echo $this->formSubmit($form->get('submit'));
+?>
+<input type="submit" name="option" value="Save" class="btn btn-primary"/>
+<input type="submit" name="option" value="Cancel" class="btn btn-warning"/>
+<?php
 echo $this->form()->closeTag();
+?>

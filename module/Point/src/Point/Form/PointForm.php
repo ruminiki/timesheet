@@ -53,15 +53,25 @@ class PointForm extends Form
             ),
         ));
         
-        $this->add(array(
-            'name' => 'submit',
+        /*$this->add(array(
+            'name' => 'save',
             'type' => 'button',
             'attributes' => array(
                 'type' => 'submit', 
                 'class' => 'btn btn-primary',
-                'id' => 'submitbutton'),
-            'options' => array('label' => 'Submit'),
+                'id' => 'save'),
+            'options' => array('label' => 'Save'),
         ));
+
+        $this->add(array(
+            'name' => 'cancel',
+            'type' => 'button',
+            'attributes' => array(
+                'type' => 'submit', 
+                'class' => 'btn btn-warning',
+                'id' => 'cancel'),
+            'options' => array('label' => 'Cancel'),
+        ));*/
 
     }
 }
