@@ -42,7 +42,7 @@ class PointTable
     {
         //year_month formato Ym   
         $sql =  "SELECT ".
-                    "p.date AS date,  ".
+                    "p.date AS date, p.note as note,  ".
                     "GROUP_CONCAT(schedule ORDER BY schedule ASC SEPARATOR ' -- ') AS schedule, ".
                     "w.hours as worked_hours_day ".
                 "FROM point p INNER JOIN worked_hours w on w.date = p.date and substring(w.date,1,6) = '" . $year_month . "' " .
