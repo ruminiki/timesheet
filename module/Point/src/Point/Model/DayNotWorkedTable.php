@@ -52,13 +52,14 @@ class DayNotWorkedTable
     public function fetchAllByMonthAsArrayDayString($year_month)
     {
         
-        $sql = "select substring(date,7,2) as day from day_not_worked where substring(date,1,6) = '".$year_month."'";
+        $sql = "select substring(date,7,2) as day, reason from day_not_worked where substring(date,1,6) = '".$year_month."'";
         $statement = $this->tableGateway->adapter->query($sql); 
 
         $rowSet = $statement->execute();
         $days = array();
         foreach ( $rowSet as $row ){
-            array_push($days, $row['day']);
+            //mapeamento chave valor
+            $days[$row['day']] = $row['reason'];
         }
 
         return $days;

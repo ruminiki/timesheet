@@ -39,31 +39,26 @@ endfor;
 
 // Show days.... 
 for($list_day = 1; $list_day <= $days_in_month; $list_day++):
+
+    $day_string = $list_day < 10 ? '0' . $list_day : $list_day; 
+
     if( $list_day==date('d') && $month==date('n') && $year==date('Y') )
     {
         $currentday='currentday';
     }else
     {
         //verifica se é o dia selecionado pelo usuário
+
         if( $list_day==$day ){
             $currentday='selected_day';
         }else{
             //verifica se o dia não é trabalhado
-
-            if (in_array($list_day, $days_not_worked)) {
-                $currentday='not_worked_day';  
+            if ( !empty($days_not_worked[$day_string]) && !is_null($days_not_worked[$day_string]) ) {
+                $currentday='not_worked_day';
             }else{
                 $currentday='';                
             }
-            /*foreach ($days_not_worked as $day_not_worked){
-                $records[] = $day_not_worked;
-                echo substr($records['date'],6,2);
-                if ( $list_day == substr($records['date'],6,2) ){
-                    $currentday='not_worked_day';  
-                }else{
-                    $currentday='';                
-                }
-            }*/
+
         }
     }
     
@@ -80,15 +75,19 @@ for($list_day = 1; $list_day <= $days_in_month; $list_day++):
         $showtoday.='<strong>';
 
         $url = "'" . $this->url('point',array('action'=>'fetchByDay', 'date' => $year.$month.$d)) . "'";
-        $calendar.= '<td class="calendar-day ' . $currentday . '" onclick="window.location.href='.$url.'">';
+        
+        $calendar.= '<td class="calendar-day ' . $currentday . '" onclick="window.location.href='.$url.'">';    
 
     }else
     {
         $showtoday=$list_day;
         $calendar.= '<td class="calendar-day ' . $currentday . '">';
     }
-
-    $calendar .= '<div class="day-number" onclick="window.location=http://google.com">'.$showtoday.'</div>';
+    if ( $currentday == 'not_worked_day' ){
+        $calendar .= '<div title="' . $days_not_worked[$day_string] . '" class="day-number">'.$showtoday.'</div>';
+    }else{
+        $calendar .= '<div class="day-number">'.$showtoday.'</div>';
+    }
 
     // Draw table end
     $calendar.= '</td>';
