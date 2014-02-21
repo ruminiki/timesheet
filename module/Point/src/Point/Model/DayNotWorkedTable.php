@@ -37,11 +37,32 @@ class DayNotWorkedTable
 
     public function fetchAllByMonth($year_month)
     {
-        $sql = "select * from day_not_worked where substring(date,1,6) = '".$year_month."'";
+
+        $sql = "select date, reason from day_not_worked where substring(date,1,6) = '".$year_month."'";
         $statement = $this->tableGateway->adapter->query($sql); 
 
         $rowSet = $statement->execute();
+
         return $rowSet;
+
+    }
+    /**
+    * Retorna um array com todos os dias (formato date (d)) não trabalhados no mês
+    **/
+    public function fetchAllByMonthAsArrayDayString($year_month)
+    {
+        
+        $sql = "select substring(date,7,2) as day from day_not_worked where substring(date,1,6) = '".$year_month."'";
+        $statement = $this->tableGateway->adapter->query($sql); 
+
+        $rowSet = $statement->execute();
+        $days = array();
+        foreach ( $rowSet as $row ){
+            array_push($days, $row['day']);
+        }
+
+        return $days;
+
     }
 
     public function deleteDayNotWorked($date)

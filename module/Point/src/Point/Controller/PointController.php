@@ -13,6 +13,7 @@ class PointController extends AbstractActionController
 {
     protected $pointTable;
     protected $workedHoursTable;
+    protected $dayNotWorkedTable;
         
     public function indexAction()
     {
@@ -35,6 +36,7 @@ class PointController extends AbstractActionController
             'selected_date' => date_format($date,'d')."/".date_format($date,'m')."/".date_format($date,'Y'),
             'worked_hours_day' => $this->getWorkedHoursTable()->getWorkedHours($container->selectedDate),
             'worked_hours_month' => $this->getWorkedHoursTable()->getSumWorkedHoursMonth(date_format($date,'Y').date_format($date,'m')),
+            'days_not_worked' => $this->getDayNotWorkedTable()->fetchAllByMonthAsArrayDayString(date_format($date,'Y').date_format($date,'m')),
         ));
 
     }
@@ -68,6 +70,7 @@ class PointController extends AbstractActionController
             'month_label' => $month_label,
             'worked_hours_day' => $this->getWorkedHoursTable()->getWorkedHours($container->selectedDate),
             'worked_hours_month' => $this->getWorkedHoursTable()->getSumWorkedHoursMonth($year.$month),
+            'days_not_worked' => $this->getDayNotWorkedTable()->fetchAllByMonthAsArrayDayString($year.$month),
             'selected_date' => $day."/".$month."/".$year,
         ));
 
@@ -100,6 +103,7 @@ class PointController extends AbstractActionController
             'selected_date' => $day."/".$month."/".$year,
             'worked_hours_day' => $this->getWorkedHoursTable()->getWorkedHours($container->selectedDate),
             'worked_hours_month' => $this->getWorkedHoursTable()->getSumWorkedHoursMonth($year.$month),
+            'days_not_worked' => $this->getDayNotWorkedTable()->fetchAllByMonthAsArrayDayString($year.$month),
         ));
 
         return $viewModel->setTemplate('point/point/index.phtml');
@@ -253,6 +257,16 @@ class PointController extends AbstractActionController
         }
         
         return $this->workedHoursTable;
+    }
+
+    public function getDayNotWorkedTable()
+    {
+        if (!$this->dayNotWorkedTable) {
+            $sm = $this->getServiceLocator();
+            $this->dayNotWorkedTable = $sm->get('Point\Model\DayNotWorkedTable');
+        }
+        
+        return $this->dayNotWorkedTable;
     }
 
     public function calculateWorkedHours($points, $date){

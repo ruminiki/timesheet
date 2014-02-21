@@ -14,7 +14,6 @@
 
 <?php
 //==============DRAW CALENDAR===========
-
 // Draw table for Calendar 
 $calendar = '<table cellpadding="0" cellspacing="0" class="calendar">';
 
@@ -49,7 +48,22 @@ for($list_day = 1; $list_day <= $days_in_month; $list_day++):
         if( $list_day==$day ){
             $currentday='selected_day';
         }else{
-            $currentday='';    
+            //verifica se o dia não é trabalhado
+
+            if (in_array($list_day, $days_not_worked)) {
+                $currentday='not_worked_day';  
+            }else{
+                $currentday='';                
+            }
+            /*foreach ($days_not_worked as $day_not_worked){
+                $records[] = $day_not_worked;
+                echo substr($records['date'],6,2);
+                if ( $list_day == substr($records['date'],6,2) ){
+                    $currentday='not_worked_day';  
+                }else{
+                    $currentday='';                
+                }
+            }*/
         }
     }
     

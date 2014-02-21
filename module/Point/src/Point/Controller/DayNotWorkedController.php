@@ -31,7 +31,7 @@ class DayNotWorkedController extends AbstractActionController
         $date = $this->params()->fromRoute('date', 0);
 
         if (!$date) {
-            return $this->redirect()->toRoute('point');
+            //return $this->redirect()->toRoute('point');
         }
 
         $request = $this->getRequest();
@@ -44,7 +44,7 @@ class DayNotWorkedController extends AbstractActionController
                 $end_date_period = $request->getPost('datepicker-end-period-not-worked');
                 if ( !empty($end_date_period) ){
 
-                    $start_date = new DateTime( $request->getPost('datepicker-start-period-not-worked') );
+                    $start_date = DateTime::createFromFormat( "d/m/Y", $request->getPost('datepicker-start-period-not-worked') );
                     $end_date   = DateTime::createFromFormat( "d/m/Y", $end_date_period );
 
                     while ($start_date <= $end_date){
@@ -64,7 +64,6 @@ class DayNotWorkedController extends AbstractActionController
         
         return array(
             'date' => $date,
-            'formated_date' => date_format(date_create($date), 'd/m/Y'),
         );
     }
 
