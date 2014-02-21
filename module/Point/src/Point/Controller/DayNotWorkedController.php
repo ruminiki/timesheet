@@ -14,13 +14,14 @@ class DayNotWorkedController extends AbstractActionController
         
     public function indexAction()
     {
-        $year_month = $this->params()->fromRoute('date', 0);
+        $date = $this->params()->fromRoute('date', 0);
+        $year_month = substr($date,0,6);
         $days_not_worked = $this->getDayNotWorkedTable()->fetchAllByMonth($year_month);
               
         return new ViewModel(array(
             'days_not_worked' => $days_not_worked,
-            'formated_date' => date('d/m/Y'),
-            'date' => date('Ymd'),
+            'formated_date' => date_format(date_create($date), 'd/m/Y'),
+            'date' => $date,
         ));
 
     }

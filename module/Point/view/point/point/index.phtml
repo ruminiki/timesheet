@@ -109,7 +109,7 @@ echo $calendar;
     <h6>Horas trabalhadas no mês: <?php echo $worked_hours_month; ?></h6>
     &nbsp;
     <p>
-        <a href="<?php echo $this->url('day-not-worked', array('action'=>'index', 'date' => $year.$month ));?>">Não trabalhado</a>
+        <a href="<?php echo $this->url('day-not-worked', array('action'=>'index', 'date' => $year.$month.$day ));?>">Não trabalhado</a>
     </p>
     &nbsp;
     |
