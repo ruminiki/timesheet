@@ -94,7 +94,7 @@
 
 /* = ICON
 ----------------------------------------------------------------------------------------------------------------------*/
-button.Zebra_DatePicker_Icon            { margin-left: 0;z-index: 999;border: none; cursor: pointer;height: 16px;width: 16px;margin-top: 14px;background-image: url('../img/calendar.png');}
+button.Zebra_DatePicker_Icon            { margin-left: 5px;z-index: 999;border: none; cursor: pointer;height: 16px;width: 16px;margin-top: 14px;background-image: url('../img/calendar.png');}
 
 /*button.Zebra_DatePicker_Icon            {display: block; position: relative; width: 16px; height: 16px; background: url('../img/calendar.png') no-repeat right top; text-indent: -9000px; border: none; cursor: pointer; padding: 0; line-height: 0; vertical-align: top }
 button.Zebra_DatePicker_Icon            { background-image: url('../img/calendar.png'); display: block; position: relative; width: 16px; height: 16px; text-indent: -9000px; border: none; cursor: pointer; padding: 0; line-height: 0; vertical-align: top }

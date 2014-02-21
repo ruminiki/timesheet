@@ -41,11 +41,11 @@ class DayNotWorkedController extends AbstractActionController
 
             if ($option == 'Save') {
                 //verify if user was mark a period    
-                $date_end_period = $request->getPost('datepicker-end-period-not-worked');
-                if ( !empty($date_end_period) ){
+                $end_date_period = $request->getPost('datepicker-end-period-not-worked');
+                if ( !empty($end_date_period) ){
 
-                    $start_date = new DateTime( $request->getPost('date') );
-                    $end_date   = DateTime::createFromFormat( "d/m/Y", $date_end_period );
+                    $start_date = new DateTime( $request->getPost('datepicker-start-period-not-worked') );
+                    $end_date   = DateTime::createFromFormat( "d/m/Y", $end_date_period );
 
                     while ($start_date <= $end_date){
                         $reason = $request->getPost('reason');

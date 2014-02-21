@@ -19,22 +19,25 @@ $url = $this->url('day-not-worked', array(
 
 <form action="<?php echo $url; ?>" method="post">
 
-	<div class='form-group' style="line-height:50px">
+	<div class='form-group' style="line-height:2.5em;width:100%;display:inline-flex">
 		<input type="hidden" name="date" value="<?php echo $date; ?>" />
+        <div style="display:inline-flex;width:100%;line-height:50px;">
+    		<label>Data Inicial</label>
+            &nbsp;
+    	    <input id="datepicker-start-period-not-worked" name="datepicker-start-period-not-worked" class="form-control" value="<?php echo $formated_date;?>" style="width:120px;display:inline"/>
+            &nbsp;&nbsp;
+    	    <label>Data Final <i>(Opcional)</i></label>
+            &nbsp;
+    	    <input id="datepicker-end-period-not-worked" name="datepicker-end-period-not-worked" 
+    	    	class="form-control" style="width:120px;display:inline"/>
+        </div>
+	</div> 
 
-		<label>Data Inicial</label>
-	    <input name="formated_date" class="form-control" 
-	    	value="<?php echo $formated_date;?>" readonly="readonly"
-	    	style="width:120px;display:inline-flex;top:5px;margin:5px"/>
-	    
-	    <label>Data Final</label>
-	    <input id="datepicker-end-period-not-worked" name="datepicker-end-period-not-worked" 
-	    	class="form-control" style="width:120px;display:inline-flex;margin:5px"/>
-	    <br>
-	 </div>
     <label>Motivo</label>
     <input type="text" name="reason" class="form-control"/>
+    
     <h4></h4>	
+    <br>
     <input type="submit" name="option" value="Save" class="btn btn-primary"/>
     <input type="submit" name="option" value="Cancel" class="btn btn-warning"/>
 
