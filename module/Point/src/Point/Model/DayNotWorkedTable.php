@@ -21,16 +21,32 @@ class DayNotWorkedTable
             'date' => $date,
             'reason'  => $reason,
         );
+        $this->tableGateway->delete($data);
         $this->tableGateway->insert($data);
     }
 
-    public function getDayNotWorkedMonth($year_month)
+    public function getDayNotWorked($date)
+    {
+        $rowset = $this->tableGateway->select(array('date' => $date));
+        $row = $rowset->current();
+        if (!$row) {
+            return "";    
+        }
+        return $row;
+    }
+
+    public function fetchAllByMonth($year_month)
     {
         $sql = "select * from day_not_worked where substring(date,1,6) = '".$year_month."'";
         $statement = $this->tableGateway->adapter->query($sql); 
 
         $rowSet = $statement->execute();
         return $rowSet;
+    }
+
+    public function deleteDayNotWorked($date)
+    {
+        $this->tableGateway->delete(array('date' => $date));
     }
 
 }

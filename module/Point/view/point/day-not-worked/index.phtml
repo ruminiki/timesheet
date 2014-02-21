@@ -1,0 +1,81 @@
+<?php
+// module/Point/view/point/point/mark-day-as-not-worked.phtml:
+
+$title = 'Marcar dia(s) não trabalhado(s)';
+$this->headTitle($title);
+?>
+<h4><?php echo $this->escapeHtml($title); ?></h4>
+
+<h6>Dias não trabalhados não são contabilizados no banco de horas</h6>
+
+<?php
+
+$url = $this->url('day-not-worked', array(
+    'action' => 'markDayAsNotWorked',
+    'date' => $date,
+));
+
+?>
+
+<form action="<?php echo $url; ?>" method="post">
+
+	<div class='form-group' style="line-height:50px">
+		<input type="hidden" name="date" value="<?php echo $date; ?>" />
+
+		<label>Data Inicial</label>
+	    <input name="formated_date" class="form-control" 
+	    	value="<?php echo $formated_date;?>" readonly="readonly"
+	    	style="width:120px;display:inline-flex;top:5px;margin:5px"/>
+	    
+	    <label>Data Final</label>
+	    <input id="datepicker-end-period-not-worked" name="datepicker-end-period-not-worked" 
+	    	class="form-control" style="width:120px;display:inline-flex;margin:5px"/>
+	    <br>
+	 </div>
+    <label>Motivo</label>
+    <input type="text" name="reason" class="form-control"/>
+    <h4></h4>	
+    <input type="submit" name="option" value="Save" class="btn btn-primary"/>
+    <input type="submit" name="option" value="Cancel" class="btn btn-warning"/>
+
+	
+</form>
+
+<h5>Dias não trabalhados</h5>
+
+
+<table class="table">
+
+<tr>
+    <th>Date</th>
+    <th>Reason</th>
+    <th>Remove</th>
+</tr>
+
+<?php 
+
+foreach ($days_not_worked as $day_not_worked) :
+
+    echo "<tr>";
+    echo "<td>";
+
+    $formated_date = substr($day_not_worked['date'], 6, 2) . "/";
+    $formated_date.= substr($day_not_worked['date'], 4, 2) . "/";
+    $formated_date.= substr($day_not_worked['date'], 0, 4);
+
+    echo $formated_date;// . ' - '. $day_of_week;
+    echo "</td>";
+
+    echo '<td>';
+    echo $this->escapeHtml($day_not_worked['reason']);    
+    echo "</td>";        
+    echo '<td>';
+?>
+    <a href="<?php echo $this->url('day-not-worked',array('action'=>'delete', 'date' => $day_not_worked['date']));?>">Unmark</a>
+<?php
+    echo "</td>";        
+
+endforeach;
+?>
+
+</table>

@@ -7,12 +7,12 @@ use Point\Form\PointForm;
 use Point\Model\Point;
 use Zend\Session\Container;
 use DateTime;
+use DateTimeZone;
 
 class PointController extends AbstractActionController
 {
     protected $pointTable;
     protected $workedHoursTable;
-    protected $dayNotWorkedTable;
         
     public function indexAction()
     {
@@ -235,35 +235,6 @@ class PointController extends AbstractActionController
         );
     }
 
-    public function markDayAsNotWorkedAction(){
-
-        $date = $this->params()->fromRoute('date', 0);
-
-        if (!$date) {
-            return $this->redirect()->toRoute('point');
-        }
-
-        $request = $this->getRequest();
-
-        if ($request->isPost()) {
-            $option = $request->getPost('option', 'Cancel');
-
-            if ($option == 'Save') {
-                $date = $request->getPost('date');
-                $reason = $request->getPost('reason');
-                $this->getDayNotWorkedTable()->markDayAsNotWorked($date, $reason);
-            }
-
-            // Redirect to list of points
-            return $this->redirect()->toRoute('point');
-        }
-        
-        return array(
-            'date' => $date,
-            'formated_date' => date_format(date_create($date), 'd/m/Y'),
-        );
-    }
-
     ///===get tables
     public function getPointTable()
     {
@@ -283,17 +254,6 @@ class PointController extends AbstractActionController
         
         return $this->workedHoursTable;
     }
-
-    public function getDayNotWorkedTable()
-    {
-        if (!$this->dayNotWorkedTable) {
-            $sm = $this->getServiceLocator();
-            $this->dayNotWorkedTable = $sm->get('Point\Model\DayNotWorkedTable');
-        }
-        
-        return $this->dayNotWorkedTable;
-    }
-
 
     public function calculateWorkedHours($points, $date){
 

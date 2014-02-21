@@ -4,6 +4,7 @@ return array(
         'invokables' => array(
             'Point\Controller\Point' => 'Point\Controller\PointController',
             'Point\Controller\Report' => 'Point\Controller\ReportController',
+            'Point\Controller\DayNotWorked' => 'Point\Controller\DayNotWorkedController',
         ),
     ),
      // The following section is new and should be added to your file
@@ -34,6 +35,21 @@ return array(
                     ),
                     'defaults' => array(
                         'controller' => 'Point\Controller\Report',
+                        'action'     => 'index',
+                    ),
+                ),
+            ),
+
+
+            'day-not-worked' => array(
+                'type'    => 'segment',
+                'options' => array(
+                    'route'    => '/day-not-worked[/][:action][/][:date]',
+                    'constraints' => array(
+                        'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                    ),
+                    'defaults' => array(
+                        'controller' => 'Point\Controller\DayNotWorked',
                         'action'     => 'index',
                     ),
                 ),

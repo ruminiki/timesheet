@@ -31,6 +31,17 @@ return array(
                     ),
                 ),
             ),
+
+            'day-not-worked' => array(
+                'type' => 'Zend\Mvc\Router\Http\Literal',
+                'options' => array(
+                    'route'    => '/day-not-worked',
+                    'defaults' => array(
+                        'controller' => 'Point\Controller\DayNotWorked',
+                        'action'     => 'index',
+                    ),
+                ),
+            ),
             
             // The following is a route to simplify getting started creating
             // new controllers and actions without needing to create a new
