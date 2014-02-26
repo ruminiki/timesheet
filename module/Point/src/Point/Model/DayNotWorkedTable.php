@@ -21,7 +21,7 @@ class DayNotWorkedTable
             'date' => $date,
             'reason'  => $reason,
         );
-        $this->tableGateway->delete($data);
+        $this->tableGateway->delete($date);
         $this->tableGateway->insert($data);
     }
 

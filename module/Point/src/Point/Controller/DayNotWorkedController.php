@@ -73,7 +73,11 @@ class DayNotWorkedController extends AbstractActionController
 
     public function markDayAsNotWorkedAction(){
 
-        $date = $this->params()->fromRoute('date', 0);
+        $year_month = $this->params()->fromRoute('date', 0);
+
+        if (!$year_month) {
+            return $this->redirect()->toRoute('day-not-worked');
+        }
 
         $request = $this->getRequest();
 
@@ -97,31 +101,23 @@ class DayNotWorkedController extends AbstractActionController
                     $this->getDayNotWorkedTable()->markDayAsNotWorked($start_date->format("Ymd"), $reason);
                 }    
 
-                // Redirect to list of points
                 $year_month = $start_date->format("Ym");
-                $year = $start_date->format("Y");
-                $month = $start_date->format("m");
 
-                $viewModel = new ViewModel(array(
-                    'days_not_worked' => $this->getDayNotWorkedTable()->fetchAllByMonth($year_month),
-                    'year' => $year,
-                    'month' => $month,
-                ));
-
-                return $viewModel->setTemplate('point/day-not-worked/index.phtml');
             }
-
-            return array(
-                'date'   => $date,
-                'formated_date' => date_format(date_create($date), 'd/m/Y'),
-                'day_not_worked' => $this->getDayNotWorkedTable()->getDayNotWorked($date)
-            );
-
+            
         }
-        
-        return array(
-            'date' => $date,
-        );
+        // Redirect to list of points
+        $year_month = str_replace(' ', '', $year_month);
+        $year = substr($year_month, 0, 4);
+        $month = substr($year_month, 4, 2);    
+
+        $viewModel = new ViewModel(array(
+            'days_not_worked' => $this->getDayNotWorkedTable()->fetchAllByMonth($year_month),
+            'year' => $year,
+            'month' => $month,
+        ));
+
+        return $viewModel->setTemplate('point/day-not-worked/index.phtml');
     }
 
     public function deleteAction()

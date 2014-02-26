@@ -30,6 +30,7 @@ Page: point/index.phtml
 Object: input datepicker-date-calendar
 **/
 function onChangeDateCalendar(input, url){
+	//param (year month)- format YYYY mm
 	param = input.value.replace(" ", "");
 	window.location.href = url + param ;
 }
