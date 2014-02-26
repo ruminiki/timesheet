@@ -15,19 +15,8 @@ class DayNotWorkedController extends AbstractActionController
     public function indexAction()
     {
         
-        $year_month = $this->params()->fromRoute('date', 0);
-        $year = "";
-        $month = "";
-
-        if ( !empty($year_month) ){
-            $year_month = str_replace(' ', '', $year_month);
-            
-            $year = substr($year_month, 0, 4);
-            $month = substr($year_month, 4, 2);    
-        }else{
-            $year = date('Y');
-            $month = date('m');
-        }
+        $year = date('Y');
+        $month = date('m');
 
         $days_not_worked = $this->getDayNotWorkedTable()->fetchAllByMonth($year.$month);
               
@@ -62,10 +51,14 @@ class DayNotWorkedController extends AbstractActionController
 
     public function addAction()
     {
-        $date = date('Ymd');
-        $formated_date = date('d/m/Y');
+        $year_month = $this->params()->fromRoute('date', 0);
+        
+        $container = new Container('dayNotWorked_selectedYearMonth');
+        $container->dayNotWorked_selectedYearMonth = $year_month;
+
+        $day = date('d');
+        $formated_date = $day.'/'.substr($year_month, 4, 2) . '/' . substr($year_month, 0, 4);
         return array(
-            'date' => $date,
             'formated_date' => $formated_date,
         );
     }
@@ -73,11 +66,7 @@ class DayNotWorkedController extends AbstractActionController
 
     public function markDayAsNotWorkedAction(){
 
-        $year_month = $this->params()->fromRoute('date', 0);
-
-        if (!$year_month) {
-            return $this->redirect()->toRoute('day-not-worked');
-        }
+        $year_month = "";
 
         $request = $this->getRequest();
 
@@ -103,13 +92,13 @@ class DayNotWorkedController extends AbstractActionController
 
                 $year_month = $start_date->format("Ym");
 
+            }else{
+                $container = new Container('dayNotWorked_selectedYearMonth');
+                $year_month = $container->dayNotWorked_selectedYearMonth;
             }
-            
         }
-        // Redirect to list of points
-        $year_month = str_replace(' ', '', $year_month);
         $year = substr($year_month, 0, 4);
-        $month = substr($year_month, 4, 2);    
+        $month = substr($year_month, 4, 2);
 
         $viewModel = new ViewModel(array(
             'days_not_worked' => $this->getDayNotWorkedTable()->fetchAllByMonth($year_month),
