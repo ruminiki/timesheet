@@ -14,32 +14,62 @@ class DayNotWorkedController extends AbstractActionController
         
     public function indexAction()
     {
-        $date = $this->params()->fromRoute('date', 0);
-        $year_month = substr($date,0,6);
-        $days_not_worked = $this->getDayNotWorkedTable()->fetchAllByMonth($year_month);
+        $date = date('Ymd');
+        $year = date('Y');
+        $month = date('m');
+
+        $days_not_worked = $this->getDayNotWorkedTable()->fetchAllByMonth($year.$month);
               
         return new ViewModel(array(
             'days_not_worked' => $days_not_worked,
-            'formated_date' => date_format(date_create($date), 'd/m/Y'),
-            'date' => $date,
+            'year' => $year,
+            'month' => $month,
         ));
 
     }
+
+    public function fetchByMonthAction()
+    {
+
+        $year_month = $this->params()->fromRoute('date', 0);
+        $year_month = str_replace(' ', '', $year_month);
+        
+        $year = substr($year_month, 0, 4);
+        $month = substr($year_month, 4, 2);
+
+        $days_not_worked = $this->getDayNotWorkedTable()->fetchAllByMonth($year_month);
+              
+        $viewModel = new ViewModel(array(
+            'days_not_worked' => $days_not_worked,
+            'year' => $year,
+            'month' => $month,
+        ));
+
+        return $viewModel->setTemplate('point/day-not-worked/index.phtml');
+
+    }
+
+    public function addAction()
+    {
+        $date = date('Ymd');
+        $formated_date = date('d/m/Y');
+        return array(
+            'date' => $date,
+            'formated_date' => $formated_date,
+        );
+    }
+
 
     public function markDayAsNotWorkedAction(){
 
         $date = $this->params()->fromRoute('date', 0);
 
-        if (!$date) {
-            //return $this->redirect()->toRoute('point');
-        }
-
         $request = $this->getRequest();
 
         if ($request->isPost()) {
-            $option = $request->getPost('option', 'Cancel');
+            $option = $request->getPost('option', 'Cancelar');
 
-            if ($option == 'Save') {
+            if ($option == 'Salvar') {
                 //verify if user was mark a period    
                 $end_date_period = $request->getPost('datepicker-end-period-not-worked');
                 $start_date = DateTime::createFromFormat( "d/m/Y", $request->getPost('datepicker-start-period-not-worked') );
@@ -58,7 +88,7 @@ class DayNotWorkedController extends AbstractActionController
             }
 
             // Redirect to list of points
-            return $this->redirect()->toRoute('point');
+            return $this->redirect()->toRoute('day-not-worked');
         }
         
         return array(
@@ -75,9 +105,9 @@ class DayNotWorkedController extends AbstractActionController
 
         $request = $this->getRequest();
         if ($request->isPost()) {
-            $del = $request->getPost('del', 'No');
+            $del = $request->getPost('del', 'Não');
 
-            if ($del == 'Yes') {
+            if ($del == 'Sim') {
                 $date = $this->params()->fromRoute('date', 0);
                 $this->getDayNotWorkedTable()->deleteDayNotWorked($date);
             }
@@ -86,9 +116,14 @@ class DayNotWorkedController extends AbstractActionController
 
             $year_month = substr($date,0,6);
             $days_not_worked = $this->getDayNotWorkedTable()->fetchAllByMonth($year_month);
-                  
+            
+            $year = substr($year_month, 0, 4);
+            $month = substr($year_month, 4, 2);
+
             $viewModel = new ViewModel(array(
                 'days_not_worked' => $days_not_worked,
+                'year' => $year,
+                'month' => $month,
                 'formated_date' => date_format(date_create($date), 'd/m/Y'),
                 'date' => $date,
             ));

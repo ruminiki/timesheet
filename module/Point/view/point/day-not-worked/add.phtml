@@ -1,0 +1,45 @@
+<?php
+// module/Point/view/point/point/mark-day-as-not-worked.phtml:
+
+$title = 'Marcar dia(s) não trabalhado(s)';
+$this->headTitle($title);
+?>
+<h4><?php echo $this->escapeHtml($title); ?></h4>
+
+<h6>Dias não trabalhados não são contabilizados no banco de horas</h6>
+
+<?php
+
+$url = $this->url('day-not-worked', array(
+    'action' => 'markDayAsNotWorked',
+    'date' => $date,
+));
+
+?>
+
+<form action="<?php echo $url; ?>" method="post">
+
+	<div class='form-group' style="line-height:2.5em;width:100%;display:inline-flex">
+		<input type="hidden" name="date" value="<?php echo $date; ?>" />
+        <div style="display:inline-flex;width:100%;line-height:50px;">
+    		<label>Data Inicial</label>
+            &nbsp;
+    	    <input id="datepicker-start-period-not-worked" name="datepicker-start-period-not-worked" class="form-control" value="<?php echo $formated_date;?>" style="width:120px;display:inline"/>
+            &nbsp;&nbsp;
+    	    <label>Data Final <i>(Opcional)</i></label>
+            &nbsp;
+    	    <input id="datepicker-end-period-not-worked" name="datepicker-end-period-not-worked" 
+    	    	class="form-control" style="width:120px;display:inline"/>
+        </div>
+	</div> 
+
+    <label>Motivo</label>
+    <input type="text" name="reason" class="form-control"/>
+    
+    <h4></h4>	
+    <br>
+    <input type="submit" name="option" value="Salvar" class="btn btn-primary"/>
+    <input type="submit" name="option" value="Cancelar" class="btn btn-warning"/>
+
+	
+</form>

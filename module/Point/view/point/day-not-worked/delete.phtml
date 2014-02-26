@@ -1,14 +1,13 @@
 <?php
 // module/Point/view/point/point/delete.phtml:
 
-$title = 'Unmark day as not worked';
+$title = 'Desmarcar dia não trabalhado';
 $this->headTitle($title);
 ?>
 <h4><?php echo $this->escapeHtml($title); ?></h4>
 
-<p>Are you sure that you want to unmark
-    '<?php echo $this->escapeHtml($day_not_worked->date); ?>' -
-    '<?php echo $this->escapeHtml($day_not_worked->reason); ?>'?
+<p>Pretende prosseguir para desmarcar o dia 
+    <?php echo $this->escapeHtml($formated_date); ?>?
 </p>
 <?php
 $url = $this->url('day-not-worked', array(
@@ -19,7 +18,7 @@ $url = $this->url('day-not-worked', array(
 <form action="<?php echo $url; ?>" method="post">
 <div>
     <input type="hidden" name="id" value="<?php echo $day_not_worked->date; ?>" />
-    <input type="submit" name="del" value="Yes" class="btn btn-primary"/>
-    <input type="submit" name="del" value="No" class="btn btn-warning"/>
+    <input type="submit" name="del" value="Sim" class="btn btn-primary"/>
+    <input type="submit" name="del" value="Não" class="btn btn-warning"/>
 </div>
 </form>

@@ -127,9 +127,9 @@ class PointController extends AbstractActionController
         $request = $this->getRequest();
         if ($request->isPost()) {
 
-            $option = $request->getPost('option', 'Cancel');
+            $option = $request->getPost('option', 'Cancelar');
 
-            if ($option == 'Save') {
+            if ($option == 'Salvar') {
 
                 $point = new Point();
                 $form->setInputFilter($point->getInputFilter());
@@ -184,9 +184,9 @@ class PointController extends AbstractActionController
         $request = $this->getRequest();
         if ($request->isPost()) {
 
-            $option = $request->getPost('option', 'Cancel');
+            $option = $request->getPost('option', 'Cancelar');
 
-            if ($option == 'Save') {
+            if ($option == 'Salvar') {
 
                 $form->setInputFilter($point->getInputFilter());
                 $form->setData($request->getPost());

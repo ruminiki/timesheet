@@ -1,58 +1,29 @@
 <?php
 // module/Point/view/point/point/mark-day-as-not-worked.phtml:
 
-$title = 'Marcar dia(s) não trabalhado(s)';
+$title = 'Dias não trabalhados';
 $this->headTitle($title);
 ?>
 <h4><?php echo $this->escapeHtml($title); ?></h4>
 
-<h6>Dias não trabalhados não são contabilizados no banco de horas</h6>
-
-<?php
-
-$url = $this->url('day-not-worked', array(
-    'action' => 'markDayAsNotWorked',
-    'date' => $date,
-));
+<?php 
+    
+    $url = "'" . $this->url('day-not-worked',array('action'=>'fetchByMonth', 'date' => '')) . "'";
+    echo "<div class='form-group' style='width:250px;display:inline-flex;line-height: 53px;'>";
+    echo "<label>Mês/Ano</label>";
+    echo '<input type="text" name="datepicker-date-calendar" id="datepicker-date-calendar" 
+            class="form-control" style="width:120px;display:inline-flex;top:5px;margin:5px"
+            onchange="onChangeDateCalendar(this,' . $url . ')" value="' . $year . ' ' . $month . '"/>';
+    echo "</div>";
 
 ?>
-
-<form action="<?php echo $url; ?>" method="post">
-
-	<div class='form-group' style="line-height:2.5em;width:100%;display:inline-flex">
-		<input type="hidden" name="date" value="<?php echo $date; ?>" />
-        <div style="display:inline-flex;width:100%;line-height:50px;">
-    		<label>Data Inicial</label>
-            &nbsp;
-    	    <input id="datepicker-start-period-not-worked" name="datepicker-start-period-not-worked" class="form-control" value="<?php echo $formated_date;?>" style="width:120px;display:inline"/>
-            &nbsp;&nbsp;
-    	    <label>Data Final <i>(Opcional)</i></label>
-            &nbsp;
-    	    <input id="datepicker-end-period-not-worked" name="datepicker-end-period-not-worked" 
-    	    	class="form-control" style="width:120px;display:inline"/>
-        </div>
-	</div> 
-
-    <label>Motivo</label>
-    <input type="text" name="reason" class="form-control"/>
-    
-    <h4></h4>	
-    <br>
-    <input type="submit" name="option" value="Save" class="btn btn-primary"/>
-    <input type="submit" name="option" value="Cancel" class="btn btn-warning"/>
-
-	
-</form>
-
-<h5>Dias não trabalhados</h5>
-
 
 <table class="table">
 
 <tr>
-    <th>Date</th>
-    <th>Reason</th>
-    <th>Remove</th>
+    <th>Data</th>
+    <th>Motivo</th>
+    <th>Desmarcar</th>
 </tr>
 
 <?php 
@@ -74,7 +45,7 @@ foreach ($days_not_worked as $day_not_worked) :
     echo "</td>";        
     echo '<td>';
 ?>
-    <a href="<?php echo $this->url('day-not-worked',array('action'=>'delete', 'date' => $day_not_worked['date']));?>">Unmark</a>
+    <a href="<?php echo $this->url('day-not-worked',array('action'=>'delete', 'date' => $day_not_worked['date']));?>">Desmarcar</a>
 <?php
     echo "</td>";        
 
@@ -82,3 +53,18 @@ endforeach;
 ?>
 
 </table>
+<div style="display:inline-flex; line-height:33px; width:100%">
+    <div style="display:inline-flex">
+        <p>
+            <a href="<?php echo $this->url('day-not-worked', array('action'=>'add'));?>">Adicionar</a>
+        </p>
+        &nbsp;
+        |
+        &nbsp;
+        <p>
+            <a href="<?php echo $this->url('point', array('action'=>'index'));?>">Voltar</a>
+        </p>
+        
+    </div>
+</div>
+

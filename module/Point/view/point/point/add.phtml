@@ -1,11 +1,11 @@
 <?php
 	// module/Point/view/point/point/add.phtml:
-	$title = 'Add new point';
+	$title = 'Novo Registro';
 	$this->headTitle($title);
 
 ?>
 
-<h1><?php echo $this->escapeHtml($title); ?></h1>
+<h3><?php echo $this->escapeHtml($title); ?></h3>
 
 <?php
 	$form = $this->form;
@@ -18,8 +18,8 @@
 	echo $this->formRow($form->get('schedule'));
 	echo $this->formRow($form->get('note'));
 ?>
-	<input type="submit" name="option" value="Save" class="btn btn-primary"/>
-	<input type="submit" name="option" value="Cancel" class="btn btn-warning"/>
+	<input type="submit" name="option" value="Salvar" class="btn btn-primary"/>
+	<input type="submit" name="option" value="Cancelar" class="btn btn-warning"/>
 <?php
 	echo $this->form()->closeTag();
 ?>

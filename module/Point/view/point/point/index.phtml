@@ -18,7 +18,7 @@
 $calendar = '<table cellpadding="0" cellspacing="0" class="calendar">';
 
 // Draw Calendar table headings 
-$headings = array('Sun','Mon','Tue','Wed','Thu','Fri','Sat');
+$headings = array('Dom','Seg','Ter','Qua','Qui','Sex','Sab');
 $calendar.= '<tr class="calendar-row"><td class="calendar-day-head">'.implode('</td><td class="calendar-day-head">',$headings).'</td></tr>';
 
 //days and weeks variable for now ... 
@@ -118,34 +118,39 @@ $calendar.= '</table>';
 echo $calendar;
 ?>
 
-<div style="display:inline-flex; line-height:33px">
-    <h6>Horas trabalhadas no mês: <?php echo $worked_hours_month; ?></h6>
-    &nbsp;
-    <p>
-        <a href="<?php echo $this->url('day-not-worked', array('action'=>'index', 'date' => $year.$month.$day ));?>">Dias não trabalhado</a>
-    </p>
-    &nbsp;
-    |
-    &nbsp;
-    <p>
-        <a href="<?php echo $this->url('point', array('action'=>'add'));?>">Banco de horas</a>
-    </p>
+<div style="display:inline-flex; line-height:33px; width:100%">
+    <div style="display:inline-flex">
+        <?php
+        if (!($month > date('n') && $year >= date('Y'))){
+        ?>
+        <p>
+            <a href="<?php echo $this->url('point', array('action'=>'add'));?>">Novo Registro</a>
+        </p>
+        <?php } ?>
+        &nbsp;
+        |
+        &nbsp;
+        <p>
+            <a href="<?php echo $this->url('day-not-worked', array('action'=>'index', 'date' => $year.$month.$day ));?>">Dias não trabalhado</a>
+        </p>
+        &nbsp;
+        |
+        &nbsp;
+        <p>
+            <a href="<?php echo $this->url('point', array('action'=>'add'));?>">Banco de horas</a>
+        </p>
+    </div>
 </div>
-<?php
-    if (!($month > date('n') && $year >= date('Y'))){
-?>
-<p>
-    <a href="<?php echo $this->url('point', array('action'=>'add'));?>">Add new point</a>
-</p>
-<?php
-}
-?>
+<div style="display:inline-flex; line-height:33px; width:100%; margin-top: 0px">
+    <h6 style="margin-top: 0px">Horas trabalhadas no mês: <?php echo $worked_hours_month; ?></h6>
+</div>
+
 
 <table class="table">
 <tr>
-    <th>Date</th>
-    <th>Schedule</th>
-    <th>Note</th>
+    <th>Data</th>
+    <th>Horário</th>
+    <th>Nota</th>
     <th>&nbsp;</th>
 </tr>
 <?php foreach ($points as $point) : ?>

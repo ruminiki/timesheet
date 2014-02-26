@@ -58,9 +58,6 @@ class PointTable
         $date = new DateTime( $year_month.'01' );
         $result = array();
 
-        $f = fopen('d:/log.txt', 'w');
-        
-        //fwrite($f,'D: ' . $date->format( 'Ymd' ));
         $points->buffer();
         foreach ($points as $point) {
             
@@ -125,16 +122,13 @@ class PointTable
 
         //carrega os dias não trabalhados no mês
         $sql = "select date as date, reason as reason from day_not_worked where substring(date,1,6) = '".$year_month."'";
-        fwrite($f, $sql);
         $statement = $this->tableGateway->adapter->query($sql); 
 
         $days_not_worked = $statement->execute();
 
         foreach ( $days_not_worked as $day_not_worked ){
-            fwrite($f, $day_not_worked['reason']);
 
             foreach ( $result as $point ){
-                fwrite($f, $point->date . ' - ' . $day_not_worked['reason']);
                 if ( $point->date == $day_not_worked['date']){
                     $dnw = new DayNotWorked();
                     $dnw->date = $day_not_worked['date'];
