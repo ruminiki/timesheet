@@ -22,7 +22,7 @@ class ReportController extends AbstractActionController
             'year' => date('Y'),
             'month' => date('m'),
             'worked_hours_month' => $this->getWorkedHoursTable()->getSumWorkedHoursMonth(date('Y').date('m')),
-            'month_label' => date('F'),
+            'month_label' => strftime("%B",time()),
         ));
 
     }
@@ -43,7 +43,7 @@ class ReportController extends AbstractActionController
             'year' => $year,
             'month' => $month,
             'worked_hours_month' => $this->getWorkedHoursTable()->getSumWorkedHoursMonth($year_month),
-            'month_label' => date("F", strtotime($year_month.'01')),
+            'month_label' => strftime("%B", strtotime($year_month.'01')),
         ));
 
         return $viewModel->setTemplate('point/report/index.phtml');

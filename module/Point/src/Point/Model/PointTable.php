@@ -73,7 +73,7 @@ class PointTable
                     $wh->date = $point['date'];
                     $wh->hours = $point['worked_hours_day'];
                     $p->worked_hours = $wh;
-                    $p->day_of_week = $date->format('D');
+                    $p->day_of_week = strftime("%a",$date->getTimeStamp());
 
                     array_push($result, $p);
                     $date->modify( 'next day' );
@@ -90,7 +90,7 @@ class PointTable
                     $wh->date = $date->format( 'Ymd' );
                     $wh->hours = "";
                     $p->worked_hours = $wh;
-                    $p->day_of_week = $date->format('D');
+                    $p->day_of_week = strftime("%a",$date->getTimeStamp());
                     array_push($result, $p); 
 
                 }
@@ -112,7 +112,7 @@ class PointTable
                 $wh->date = $date->format( 'Ymd' );
                 $wh->hours = "";
                 $p->worked_hours = $wh;
-                $p->day_of_week = $date->format('D');
+                $p->day_of_week = strftime("%a",$date->getTimeStamp());
                 array_push($result, $p); 
 
                 $date->modify( 'next day' );

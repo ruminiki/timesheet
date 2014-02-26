@@ -12,7 +12,7 @@ $(document).ready(function(){
 	                  //  users will not be able to select a day!
 	});
 	//view/point/day-not-worked/index.phtml
-	$('#datepicker-end-period-not-worked').Zebra_DatePicker({
+	$('#datepicker-end-period-not-worked').Zebra_DatePicker({	
 	  format: 'd/m/Y'   //  note that becase there's no day in the format
 	                  //  users will not be able to select a day!
 	});

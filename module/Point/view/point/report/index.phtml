@@ -29,7 +29,7 @@
 foreach ($points as $point) :
 
     echo "<tr>";
-    echo "<td>";
+    echo "<td width='15%'>";
 
     $formated_date = substr($point->date, 6, 2) . "/";
     $formated_date.= substr($point->date, 4, 2) . "/";
@@ -48,12 +48,12 @@ foreach ($points as $point) :
     echo '<td>';
     echo $this->escapeHtml($point->worked_hours->hours);
     echo "</td>";        
-    echo '<td width="60%"></td>';
+    echo '<td width="40%"></td>';
 
 endforeach;
 
     echo "<tr><td></td>";
-    echo "<td style='text-align:right'>Worked in " . $month_label . ": </td>";        
+    echo "<td style='text-align:right'>Horas trabalhadas em " . $month_label . ": </td>";        
     echo '<td>';
     echo $worked_hours_month;
     echo "</td>";        

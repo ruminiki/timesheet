@@ -12,7 +12,6 @@ $this->headTitle($title);
 
 $url = $this->url('day-not-worked', array(
     'action' => 'markDayAsNotWorked',
-    'date' => $date,
 ));
 
 ?>
@@ -20,7 +19,6 @@ $url = $this->url('day-not-worked', array(
 <form action="<?php echo $url; ?>" method="post">
 
 	<div class='form-group' style="line-height:2.5em;width:100%;display:inline-flex">
-		<input type="hidden" name="date" value="<?php echo $date; ?>" />
         <div style="display:inline-flex;width:100%;line-height:50px;">
     		<label>Data Inicial</label>
             &nbsp;
