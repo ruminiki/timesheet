@@ -21,7 +21,9 @@ class DayNotWorkedTable
             'date' => $date,
             'reason'  => $reason,
         );
-        $this->tableGateway->delete($date);
+        //para não dar erro ao usuário - remove e marca novamente
+        //efeito de update
+        $this->deleteDayNotWorked($date);
         $this->tableGateway->insert($data);
     }
 
