@@ -14,9 +14,20 @@ class DayNotWorkedController extends AbstractActionController
         
     public function indexAction()
     {
-        $date = date('Ymd');
-        $year = date('Y');
-        $month = date('m');
+        
+        $year_month = $this->params()->fromRoute('date', 0);
+        $year = "";
+        $month = "";
+
+        if ( !empty($year_month) ){
+            $year_month = str_replace(' ', '', $year_month);
+            
+            $year = substr($year_month, 0, 4);
+            $month = substr($year_month, 4, 2);    
+        }else{
+            $year = date('Y');
+            $month = date('m');
+        }
 
         $days_not_worked = $this->getDayNotWorkedTable()->fetchAllByMonth($year.$month);
               
@@ -85,10 +96,27 @@ class DayNotWorkedController extends AbstractActionController
                     $reason = $request->getPost('reason');
                     $this->getDayNotWorkedTable()->markDayAsNotWorked($start_date->format("Ymd"), $reason);
                 }    
+
+                // Redirect to list of points
+                $year_month = $start_date->format("Ym");
+                $year = $start_date->format("Y");
+                $month = $start_date->format("m");
+
+                $viewModel = new ViewModel(array(
+                    'days_not_worked' => $this->getDayNotWorkedTable()->fetchAllByMonth($year_month),
+                    'year' => $year,
+                    'month' => $month,
+                ));
+
+                return $viewModel->setTemplate('point/day-not-worked/index.phtml');
             }
 
-            // Redirect to list of points
-            return $this->redirect()->toRoute('day-not-worked');
+            return array(
+                'date'   => $date,
+                'formated_date' => date_format(date_create($date), 'd/m/Y'),
+                'day_not_worked' => $this->getDayNotWorkedTable()->getDayNotWorked($date)
+            );
+
         }
         
         return array(
