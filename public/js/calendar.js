@@ -23,6 +23,14 @@ $(document).ready(function(){
 	                  //  users will not be able to select a day!
 	});
 
+	/**
+	Page: config/index.phtml
+	Object: input value
+	**/
+	/*$("#config_value").focusout(function() {
+		$( "#config_form" ).submit();
+  	});*/
+
 });
 
 /**

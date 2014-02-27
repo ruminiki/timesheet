@@ -13,6 +13,9 @@ use Point\Model\WorkedHoursTable;
 use Point\Model\DayNotWorked;
 use Point\Model\DayNotWorkedTable;
 
+use Point\Model\Config;
+use Point\Model\ConfigTable;
+
 use Zend\Db\ResultSet\ResultSet;
 use Zend\Db\TableGateway\TableGateway;
 
@@ -75,6 +78,18 @@ class Module
                     $resultSetPrototype->setArrayObjectPrototype(new DayNotWorked());
                     return new TableGateway('day_not_worked', $dbAdapter, null, $resultSetPrototype);
                 },
+                'Point\Model\ConfigTable' =>  function($sm) {
+                    $tableGateway = $sm->get('ConfigTableGateway');
+                    $table = new ConfigTable($tableGateway);
+                    return $table;
+                },
+                'ConfigTableGateway' => function ($sm) {
+                    $dbAdapter = $sm->get('Zend\Db\Adapter\Adapter');
+                    $resultSetPrototype = new ResultSet();
+                    $resultSetPrototype->setArrayObjectPrototype(new Config());
+                    return new TableGateway('config', $dbAdapter, null, $resultSetPrototype);
+                },
+
             ),
         );
     }

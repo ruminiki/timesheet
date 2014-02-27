@@ -126,10 +126,11 @@ echo $calendar;
         <p>
             <a href="<?php echo $this->url('point', array('action'=>'add'));?>">Novo Registro</a>
         </p>
-        <?php } ?>
         &nbsp;
         |
         &nbsp;
+        <?php } ?>
+        
         <p>
             <a href="<?php echo $this->url('day-not-worked', array('action'=>'index', 'date' => $year.$month.$day ));?>">Dias não trabalhado</a>
         </p>
@@ -137,7 +138,7 @@ echo $calendar;
         |
         &nbsp;
         <p>
-            <a href="<?php echo $this->url('point', array('action'=>'add'));?>">Banco de horas</a>
+            <a href="<?php echo $this->url('config');?>">Configurações</a>
         </p>
     </div>
 </div>

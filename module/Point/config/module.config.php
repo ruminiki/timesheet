@@ -5,6 +5,7 @@ return array(
             'Point\Controller\Point' => 'Point\Controller\PointController',
             'Point\Controller\Report' => 'Point\Controller\ReportController',
             'Point\Controller\DayNotWorked' => 'Point\Controller\DayNotWorkedController',
+            'Point\Controller\Config' => 'Point\Controller\ConfigController',
         ),
     ),
      // The following section is new and should be added to your file
@@ -50,6 +51,20 @@ return array(
                     ),
                     'defaults' => array(
                         'controller' => 'Point\Controller\DayNotWorked',
+                        'action'     => 'index',
+                    ),
+                ),
+            ),
+
+            'config' => array(
+                'type'    => 'segment',
+                'options' => array(
+                    'route'    => '/config[/][:action]',
+                    'constraints' => array(
+                        'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                    ),
+                    'defaults' => array(
+                        'controller' => 'Point\Controller\Config',
                         'action'     => 'index',
                     ),
                 ),

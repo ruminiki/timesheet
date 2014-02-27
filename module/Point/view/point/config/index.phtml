@@ -1,0 +1,50 @@
+<?php
+// module/Point/view/point/point/mark-day-as-not-worked.phtml:
+
+$title = 'Configuração';
+$this->headTitle($title);
+?>
+<h4><?php echo $this->escapeHtml($title); ?></h4>
+
+<table class="table">
+
+<tr>
+    <th>Parâmetro</th>
+    <th>Valor</th>
+</tr>
+
+<?php 
+
+$url = $this->url('config',array('action'=>'edit'));
+
+foreach ($configurations as $config) :
+        echo "<tr>";
+            echo '<form id="config_form" action="'. $url .'" method="post">';
+            echo "<input type='hidden' name='id' value='" . $config['id'] . "' />";
+
+            echo "<td>";
+                echo '<input id="key" name="key" class="form-control" value="' . $config['_key'] . '" readonly="readonly"/>';
+            echo "</td>";
+            echo '<td>';
+                echo '<input id="config_value" name="value" class="form-control" value="' . $config['value'] . '"/>';
+            echo "</td>";        
+            echo '<td>';
+                echo '<input name="submit" type="submit" class="btn btn-warning" value="Salvar"/>';
+            echo "</td>";  
+            echo "</form>";
+        echo "</tr>";        
+    
+
+endforeach;
+?>
+
+</table>
+
+<div style="display:inline-flex; line-height:33px; width:100%">
+    <div style="display:inline-flex">
+        <p>
+            <a href="<?php echo $this->url('point', array('action'=>'index'));?>">Voltar</a>
+        </p>
+    </div>
+</div>
+
