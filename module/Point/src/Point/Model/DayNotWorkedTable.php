@@ -50,16 +50,31 @@ class DayNotWorkedTable
 
     }
 
-    public function getBusinessDaysByMonth($year_month)
+    public function getBusinessDaysByMonth($year_month, $work_days_in_week)
     {
 
         $date = new DateTime( $year_month.'01' );
         $business_days = 0;
         $month = substr($year_month, 4, 2);
 
+        $f = fopen("/tmp/days.txt", "w");
+        fwrite($f, $work_days_in_week);
+        fclose($f);
+
         while ( $date->format('m') == $month ){
+            //$work_days contem os dias trabalhados (1 para segunda, 7 para domingo)
+            //verifica se o dia é um dos dias trabalhados pelo usuário
+            //se for, considera como dia útil
+            //utilizado para desconsiderar os finais de semana
+            //$f = fopen("/tmp/days.txt", "w");
+            //fwrite($f, $work_days_in_week . '-' . $date->format('N') . '  /  ');
+            //fclose($f);
+
+            if ( strpos($work_days_in_week, $date->format('N')) !== FALSE )
+            {
+                $business_days++;
+            }
             $date->modify( 'next day' );
-            $business_days++;
         }
        
         $sql = "select count(*) as days_not_worked from day_not_worked where substring(date,1,6) = '".$year_month."'";
