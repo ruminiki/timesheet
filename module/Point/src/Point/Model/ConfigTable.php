@@ -37,6 +37,16 @@ class ConfigTable
         return $row;
     }
 
+    public function getValueByKey($key)
+    {
+        $rowset = $this->tableGateway->select(array('_key' => $key));
+        $row = $rowset->current();
+        if (!$row) {
+            throw new \Exception("Could not find row $key");
+        }
+        return $row->value;
+    }
+
     public function saveConfig(Config $config)
     {
         $data = array(

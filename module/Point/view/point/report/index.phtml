@@ -52,12 +52,25 @@ foreach ($points as $point) :
 
 endforeach;
 
-    echo "<tr><td></td>";
-    echo "<td style='text-align:right'>Horas trabalhadas em " . $month_label . ": </td>";        
-    echo '<td>';
-    echo $worked_hours_month;
-    echo "</td>";        
+    echo "<tr>";
+    echo "<td style='text-align:right' colspan='3'>Dias úteis: " . $business_days;
+    echo " | Jornada de trabalho: " . $journey_daily . "h";
+    echo "</td>";
+    echo "</tr>";
+
+    echo "<tr>";
+    echo "<td style='text-align:right' colspan='3'>";
+    echo "Horas úteis mês: " . ((int)$business_days) * ((int)$journey_daily) . "h";
+    echo " | Horas trabalhadas: " . $worked_hours_month;
+    echo "</td>";
+    echo "</tr>";
+
+    echo "<tr>";
+    echo "<td style='text-align:right' colspan='3'>";
+    echo " Diferença: " . ( ((int) $worked_hours_month) - (((int)$business_days) * ((int)$journey_daily)) ) ."h";        
+    echo "</td>";
     echo '<td width="50%"></td>';
+    echo "</tr>";
 ?>
 
 </table>

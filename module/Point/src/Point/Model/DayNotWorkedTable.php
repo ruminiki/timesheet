@@ -4,6 +4,7 @@ namespace Point\Model;
 use Zend\Db\TableGateway\TableGateway;
 use Zend\Db\Sql\Select;
 use Zend\Db\Sql\Where;
+use DateTime;
 
 class DayNotWorkedTable
 {
@@ -48,6 +49,34 @@ class DayNotWorkedTable
         return $rowSet;
 
     }
+
+    public function getBusinessDaysByMonth($year_month)
+    {
+
+        $date = new DateTime( $year_month.'01' );
+        $business_days = 0;
+        $month = substr($year_month, 4, 2);
+
+        while ( $date->format('m') == $month ){
+            $date->modify( 'next day' );
+            $business_days++;
+        }
+       
+        $sql = "select count(*) as days_not_worked from day_not_worked where substring(date,1,6) = '".$year_month."'";
+        $statement = $this->tableGateway->adapter->query($sql); 
+
+        $rowset = $statement->execute();
+
+        $row = $rowset->current();
+
+        if ($row) {
+            $business_days -= $row['days_not_worked'];
+        }
+
+        return $business_days;
+
+    }
+
     /**
     * Retorna um array com todos os dias (formato date (d)) não trabalhados no mês
     **/

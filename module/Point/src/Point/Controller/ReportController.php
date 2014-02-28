@@ -12,6 +12,8 @@ class ReportController extends AbstractActionController
 {
     protected $pointTable;
     protected $workedHoursTable;
+    protected $dayNotWorkedTable;
+    protected $configTable;
         
     public function indexAction()
     {
@@ -23,6 +25,8 @@ class ReportController extends AbstractActionController
             'month' => date('m'),
             'worked_hours_month' => $this->getWorkedHoursTable()->getSumWorkedHoursMonth(date('Y').date('m')),
             'month_label' => strftime("%B",time()),
+            'business_days' => $this->getDayNotWorkedTable()->getBusinessDaysByMonth(date('Y').date('m')),
+            'journey_daily' => $this->getConfigTable()->getValueByKey('Jornada diária trabalho (Hrs)'),
         ));
 
     }
@@ -44,6 +48,8 @@ class ReportController extends AbstractActionController
             'month' => $month,
             'worked_hours_month' => $this->getWorkedHoursTable()->getSumWorkedHoursMonth($year_month),
             'month_label' => strftime("%B", strtotime($year_month.'01')),
+            'business_days' => $this->getDayNotWorkedTable()->getBusinessDaysByMonth($year_month),
+            'journey_daily' => $this->getConfigTable()->getValueByKey('Jornada diária trabalho (Hrs)'),
         ));
 
         return $viewModel->setTemplate('point/report/index.phtml');
@@ -69,5 +75,24 @@ class ReportController extends AbstractActionController
         return $this->workedHoursTable;
     }
 
+    public function getDayNotWorkedTable()
+    {
+        if (!$this->dayNotWorkedTable) {
+            $sm = $this->getServiceLocator();
+            $this->dayNotWorkedTable = $sm->get('Point\Model\DayNotWorkedTable');
+        }
+        
+        return $this->dayNotWorkedTable;
+    }
+
+    public function getConfigTable()
+    {
+        if (!$this->configTable) {
+            $sm = $this->getServiceLocator();
+            $this->configTable = $sm->get('Point\Model\ConfigTable');
+        }
+        
+        return $this->configTable;
+    }
 
 }
