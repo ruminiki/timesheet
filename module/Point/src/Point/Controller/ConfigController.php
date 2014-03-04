@@ -31,7 +31,7 @@ class ConfigController extends AbstractActionController
             $config->id = $request->getPost("id");
             $config->_key = $request->getPost("key");
 
-            if ( $config->_key == Config::DIAS_TRABALHADOS ){
+            if ( $config->_key == Config::JORNADA_SEMANAL ){
                 $config->value = $request->getPost("seg") . " " . $request->getPost("ter") . " " . $request->getPost("qua") . " " . 
                                  $request->getPost("qui") . " " . $request->getPost("sex") . " " . $request->getPost("sab") . " " . 
                                  $request->getPost("dom"); 

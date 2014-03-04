@@ -181,6 +181,22 @@ class PointTable
         $this->tableGateway->delete(array('id' => $id));
     }
 
+    //retorna os meses (YM) com registro de ponto para calculo de saldo de banco de horas
+    public function getFirstYearMonthWorked()
+    {
+        $sql = "select min(substring(date,1,6)) as month from point";
+        $statement = $this->tableGateway->adapter->query($sql); 
+        
+        $result = $statement->execute();
+        $row = $result->current();
+
+        if (!$row) {
+            throw new \Exception("Could not find first month worked.");
+        }
+
+        return $row['month'];
+    }
+
     public function getDayNotWorkedTable()
     {
         if (!$this->dayNotWorkedTable) {

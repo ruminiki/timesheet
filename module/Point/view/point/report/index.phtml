@@ -67,10 +67,10 @@ endforeach;
 
     echo "<tr>";
     echo "<td style='text-align:right' colspan='3'>";
-    echo " Diferença: " . ( ((int) $worked_hours_month) - (((int)$business_days) * ((int)$journey_daily)) ) ."h";        
+    echo " Diferença: " . $monthly_balance . " h | Saldo banco de horas: " . $overall_balance . " h";
     echo "</td>";
-    echo '<td width="50%"></td>';
     echo "</tr>";
+
 ?>
 
 </table>
