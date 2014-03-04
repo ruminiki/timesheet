@@ -5,6 +5,7 @@ use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 use Point\Form\ReportForm;
 use Point\Model\Report;
+use Point\Model\Config;
 use Zend\Session\Container;
 use DateTime;
 
@@ -18,7 +19,7 @@ class ReportController extends AbstractActionController
     public function indexAction()
     {
         $points = $this->getPointTable()->fetchAllByMonth(date('Y').date('m'));
-        $work_days_in_week = $this->getConfigTable()->getValueByKey('Dias trabalhados (1 para segunda 7 para domingo)');
+        $work_days_in_week = $this->getConfigTable()->getValueByKey(Config::DIAS_TRABALHADOS);
 
         return new ViewModel(array(
             'points' => $points,
@@ -27,7 +28,7 @@ class ReportController extends AbstractActionController
             'worked_hours_month' => $this->getWorkedHoursTable()->getSumWorkedHoursMonth(date('Y').date('m')),
             'month_label' => strftime("%B",time()),
             'business_days' => $this->getDayNotWorkedTable()->getBusinessDaysByMonth(date('Y').date('m'), $work_days_in_week),
-            'journey_daily' => $this->getConfigTable()->getValueByKey('Jornada diária trabalho (Hrs)'),
+            'journey_daily' => $this->getConfigTable()->getValueByKey(Config::JORNADA_TRABALHO_SEMANAL),
         ));
 
     }
@@ -42,7 +43,7 @@ class ReportController extends AbstractActionController
         $month = substr($year_month, 4, 2);
 
         $points = $this->getPointTable()->fetchAllByMonth($year_month);
-        $work_days_in_week = $this->getConfigTable()->getValueByKey('Dias trabalhados (1 para segunda 7 para domingo)');              
+        $work_days_in_week = $this->getConfigTable()->getValueByKey(Config::DIAS_TRABALHADOS);              
 
         $viewModel = new ViewModel(array(
             'points' => $points,
@@ -51,7 +52,7 @@ class ReportController extends AbstractActionController
             'worked_hours_month' => $this->getWorkedHoursTable()->getSumWorkedHoursMonth($year_month),
             'month_label' => strftime("%B", strtotime($year_month.'01')),
             'business_days' => $this->getDayNotWorkedTable()->getBusinessDaysByMonth($year_month, $work_days_in_week),
-            'journey_daily' => $this->getConfigTable()->getValueByKey('Jornada diária trabalho (Hrs)'),
+            'journey_daily' => $this->getConfigTable()->getValueByKey(Config::JORNADA_TRABALHO_SEMANAL),
         ));
 
         return $viewModel->setTemplate('point/report/index.phtml');

@@ -30,7 +30,15 @@ class ConfigController extends AbstractActionController
 
             $config->id = $request->getPost("id");
             $config->_key = $request->getPost("key");
-            $config->value = $request->getPost("value");
+
+            if ( $config->_key == Config::DIAS_TRABALHADOS ){
+                $config->value = $request->getPost("seg") . " " . $request->getPost("ter") . " " . $request->getPost("qua") . " " . 
+                                 $request->getPost("qui") . " " . $request->getPost("sex") . " " . $request->getPost("sab") . " " . 
+                                 $request->getPost("dom"); 
+                //$config->value = preg_replace('/\s+/', '', $config->value);
+            }else{
+                $config->value = $request->getPost("value");
+            }
 
             $this->getConfigTable()->saveConfig($config);
 

@@ -10,7 +10,7 @@ use Point\Model\Config;
 class ConfigTable
 {
     protected $tableGateway;
-
+    
     public function __construct(TableGateway $tableGateway)
     {
         $this->tableGateway = $tableGateway;

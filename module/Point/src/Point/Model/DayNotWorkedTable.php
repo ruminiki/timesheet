@@ -57,10 +57,6 @@ class DayNotWorkedTable
         $business_days = 0;
         $month = substr($year_month, 4, 2);
 
-        $f = fopen("/tmp/days.txt", "w");
-        fwrite($f, $work_days_in_week);
-        fclose($f);
-
         while ( $date->format('m') == $month ){
             //$work_days contem os dias trabalhados (1 para segunda, 7 para domingo)
             //verifica se o dia é um dos dias trabalhados pelo usuário

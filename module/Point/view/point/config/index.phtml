@@ -1,5 +1,6 @@
 <?php
 // module/Point/view/point/point/mark-day-as-not-worked.phtml:
+use Point\Model\Config;
 
 $title = 'Configuração';
 $this->headTitle($title);
@@ -17,6 +18,7 @@ $this->headTitle($title);
 
 $url = $this->url('config',array('action'=>'edit'));
 
+
 foreach ($configurations as $config) :
         echo "<tr>";
             echo '<form id="config_form" action="'. $url .'" method="post">';
@@ -26,15 +28,23 @@ foreach ($configurations as $config) :
                 echo '<input id="key" name="key" class="form-control" value="' . $config['_key'] . '" readonly="readonly"/>';
             echo "</td>";
             echo '<td>';
-                echo '<input id="config_value" name="value" class="form-control" value="' . $config['value'] . '"/>';
+                if ( $config['_key'] == Config::DIAS_TRABALHADOS ){
+                    echo "<input type='checkbox' name='seg' value='1' " . (strpos($config['value'],'1') !== false ? "checked":"") . ">Segunda-Feira<br>";
+                    echo "<input type='checkbox' name='ter' value='2' " . (strpos($config['value'],'2') !== false ? "checked":"") . ">Terça-Feira<br>";
+                    echo "<input type='checkbox' name='qua' value='3' " . (strpos($config['value'],'3') !== false ? "checked":"") . ">Quarta-Feira<br>";
+                    echo "<input type='checkbox' name='qui' value='4' " . (strpos($config['value'],'4') !== false ? "checked":"") . ">Quinta-Feira<br>";
+                    echo "<input type='checkbox' name='sex' value='5' " . (strpos($config['value'],'5') !== false ? "checked":"") . ">Sexta-Feira<br>";
+                    echo "<input type='checkbox' name='sab' value='6' " . (strpos($config['value'],'6') !== false ? "checked":"") . ">Sábado<br>";
+                    echo "<input type='checkbox' name='dom' value='7' " . (strpos($config['value'],'7') !== false ? "checked":"") . ">Domingo<br>";
+                }else{
+                    echo '<input id="config_value" name="value" class="form-control" value="' . $config['value'] . '"/>';    
+                }
             echo "</td>";        
             echo '<td>';
                 echo '<input name="submit" type="submit" class="btn btn-warning" value="Salvar"/>';
             echo "</td>";  
             echo "</form>";
         echo "</tr>";        
-    
-
 endforeach;
 ?>
 
