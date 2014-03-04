@@ -19,7 +19,7 @@ class ReportController extends AbstractActionController
     public function indexAction()
     {
         $points = $this->getPointTable()->fetchAllByMonth(date('Y').date('m'));
-        $work_days_in_week = $this->getConfigTable()->getValueByKey(Config::DIAS_TRABALHADOS);
+        $work_days_in_week = $this->getConfigTable()->getValueByKey(Config::JORNADA_SEMANAL);
 
         return new ViewModel(array(
             'points' => $points,
@@ -43,7 +43,7 @@ class ReportController extends AbstractActionController
         $month = substr($year_month, 4, 2);
 
         $points = $this->getPointTable()->fetchAllByMonth($year_month);
-        $work_days_in_week = $this->getConfigTable()->getValueByKey(Config::DIAS_TRABALHADOS);              
+        $work_days_in_week = $this->getConfigTable()->getValueByKey(Config::JORNADA_SEMANAL);              
 
         $viewModel = new ViewModel(array(
             'points' => $points,
