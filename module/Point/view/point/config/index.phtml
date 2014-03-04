@@ -18,7 +18,6 @@ $this->headTitle($title);
 
 $url = $this->url('config',array('action'=>'edit'));
 
-
 foreach ($configurations as $config) :
         echo "<tr>";
             echo '<form id="config_form" action="'. $url .'" method="post">';
@@ -28,7 +27,7 @@ foreach ($configurations as $config) :
                 echo '<input id="key" name="key" class="form-control" value="' . $config['_key'] . '" readonly="readonly"/>';
             echo "</td>";
             echo '<td>';
-                if ( $config['_key'] == Config::DIAS_TRABALHADOS ){
+                if ( $config['_key'] == Config::JORNADA_SEMANAL ){
                     echo "<input type='checkbox' name='seg' value='1' " . (strpos($config['value'],'1') !== false ? "checked":"") . ">Segunda-Feira<br>";
                     echo "<input type='checkbox' name='ter' value='2' " . (strpos($config['value'],'2') !== false ? "checked":"") . ">Terça-Feira<br>";
                     echo "<input type='checkbox' name='qua' value='3' " . (strpos($config['value'],'3') !== false ? "checked":"") . ">Quarta-Feira<br>";

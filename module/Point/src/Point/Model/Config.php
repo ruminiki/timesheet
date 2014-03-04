@@ -10,9 +10,9 @@ use Zend\InputFilter\InputFilterInterface;
 class Config implements InputFilterAwareInterface 
 {
 
-    const JORNADA_TRABALHO_SEMANAL = "Jornada de trabalho diária (hrs)";
+    const JORNADA_TRABALHO_SEMANAL = "Jornada diária (hrs)";
     const SALDO_INICIAL_BANCO_DE_HORAS = "Saldo inicial banco de horas (hrs)";
-    const DIAS_TRABALHADOS = "Dias trabalhados";
+    const JORNADA_SEMANAL = "Jornada semanal";
 
     public $id;
     public $_key;
