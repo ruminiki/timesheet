@@ -7,6 +7,7 @@ use Point\Form\ReportForm;
 use Point\Model\Report;
 use Point\Model\Config;
 use Zend\Session\Container;
+use Application\Utils\TimeUtil;
 use DateTime;
 
 class ReportController extends AbstractActionController
@@ -25,7 +26,17 @@ class ReportController extends AbstractActionController
         $journey_daily = $this->getConfigTable()->getValueByKey(Config::JORNADA_DIARIA);
         $worked_hours_month = $this->getWorkedHoursTable()->getSumWorkedHoursMonth(date('Y').date('m'));
 
-        $monthly_balance = $worked_hours_month - ($business_days * $journey_daily);
+        //converte para minutos para realizar as somas e em seguida converte novamente para horas
+        //para apresentar no relatório
+        $monthly_balance_minutes = TimeUtil::hours2minutes($worked_hours_month) - TimeUtil::hours2minutes($business_days * $journey_daily);
+        //$f = fopen("/tmp/log.txt", "a");
+        //fwrite($f, $monthly_balance_minutes);
+        
+        $monthly_balance = TimeUtil::minutes2hours($monthly_balance_minutes);
+        //fwrite($f, $monthly_balance);
+
+        //fclose($f);
+
         $overall_balance = $this->getOverallBalance(date('Y').date('m'));
 
         return new ViewModel(array(
@@ -58,7 +69,18 @@ class ReportController extends AbstractActionController
         $journey_daily = $this->getConfigTable()->getValueByKey(Config::JORNADA_DIARIA);
         $worked_hours_month = $this->getWorkedHoursTable()->getSumWorkedHoursMonth($year_month);
 
-        $monthly_balance = $worked_hours_month - ($business_days * $journey_daily);
+        //converte para minutos para realizar as somas e em seguida converte novamente para horas
+        //para apresentar no relatório
+        $monthly_balance_minutes = TimeUtil::hours2minutes($worked_hours_month) - TimeUtil::hours2minutes($business_days * $journey_daily);
+
+        //$f = fopen("/tmp/log.txt", "a");
+        //fwrite($f, $monthly_balance_minutes . "\n");
+        
+        $monthly_balance = TimeUtil::minutes2hours($monthly_balance_minutes);
+        //fwrite($f, $monthly_balance . "\n");
+        
+        //fclose($f);
+
         $overall_balance = $this->getOverallBalance($year_month);      
 
         $viewModel = new ViewModel(array(
