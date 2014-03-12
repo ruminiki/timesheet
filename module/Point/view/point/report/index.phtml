@@ -1,9 +1,11 @@
 
 <!--- FORM -->
+
+<div style="position: fixed;background: white;width: 100%;margin-top: -10px;">
+
 <?php 
-    
     $url = "'" . $this->url('report',array('action'=>'runReport', 'date' => '')) . "'";
-    echo "<div class='form-group' style='width:250px;display:inline-flex;line-height: 53px;'>";
+    echo "<div class='form-group' style='width:250px;display:inline-flex;line-height: 53px;margin-top:10px'>";
     echo "<label>Mês/Ano</label>";
     echo '<input type="text" name="datepicker-date-calendar" id="datepicker-date-calendar" 
             class="form-control" style="width:120px;display:inline-flex;top:5px;margin:5px"
@@ -11,11 +13,10 @@
     echo "</div>";
 
 ?>
-
-<h3></h3>
+</div>
 
 <!--============= REPORT -->
-<table class="table">
+<table class="table" style="margin-top:70px">
 
 <tr>
     <th>Date</th>

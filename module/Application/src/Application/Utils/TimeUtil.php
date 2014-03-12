@@ -20,8 +20,6 @@ class TimeUtil
 	public static function minutes2hours($Minutes)
 	{
 
-		$f = fopen("/tmp/log.txt");
-		
 		$Minutes = (int) $Minutes;
 
 		if ($Minutes < 0)
@@ -33,23 +31,12 @@ class TimeUtil
 	        $Min = $Minutes;
 	    }
 	    $iHours = (int) ($Min / 60);
-	    //$Minutes = ($Min - ($iHours * 60)) / 100;
+
 	    $Min = $Min - ($iHours * 60);
-	    /*$tHours = $iHours + $Minutes;*/
-	    /*if ($Minutes < 0)
+
+	    if ($Min < 10)
 	    {
-	        $tHours = $tHours * (-1);
-	    }
-	    $aHours = explode(".", $tHours);
-	    $iHours = $aHours[0];
-	    if (empty($aHours[1]))
-	    {
-	        $aHours[1] = "00";
-	    }*/
-	    //$Minutes = $aHours[1];
-	    if (strlen($Min) < 2)
-	    {
-	        $Min = $Min ."0";
+	        $Min = "0".$Min;
 	    }
 	    
 	    if ($iHours < 10)
@@ -63,10 +50,6 @@ class TimeUtil
 	    {
 	        return " - " . $tHours;
 	    }
-		
-        fwrite($f, $tHours . "\n");
-		fclose($f);
-
 	    return $tHours;
 	}
 

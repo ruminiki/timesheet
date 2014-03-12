@@ -130,9 +130,6 @@ class ReportController extends AbstractActionController
         //retorna o primeiro mes com registro de ponto. Formato Ym
         $first_year_month_worked = $this->getPointTable()->getFirstYearMonthWorked();
         $overall_balance = $this->getConfigTable()->getValueByKey(Config::SALDO_INICIAL_BANCO_DE_HORAS);
-        $f = fopen("/tmp/log.txt", "a");
-        fwrite($f, "Overall Balance: " . $overall_balance . "\n");
-        fclose($f);
         //converte hora no formato HH:MM para minutos
         $overall_balance_minutes = TimeUtil::hours2minutes($overall_balance);
 
