@@ -20,6 +20,8 @@ class TimeUtil
 	public static function minutes2hours($Minutes)
 	{
 
+		$f = fopen("/tmp/log.txt");
+		
 		$Minutes = (int) $Minutes;
 
 		if ($Minutes < 0)
