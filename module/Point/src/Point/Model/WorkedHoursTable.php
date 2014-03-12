@@ -45,7 +45,7 @@ class WorkedHoursTable
 
     public function getSumWorkedHoursMonth($year_month)
     {
-        $sql = "select COALESCE(SEC_TO_TIME(SUM(TIME_TO_SEC(hours))),'00:00') as total from worked_hours where substring(date,1,6) = '".$year_month."'";
+        $sql = "select COALESCE(TIME_FORMAT(SEC_TO_TIME(SUM(TIME_TO_SEC(hours))), '%H:%i'),'00:00') as total from worked_hours where substring(date,1,6) = '".$year_month."'";
         $statement = $this->tableGateway->adapter->query($sql); 
 
         $rowSet = $statement->execute();

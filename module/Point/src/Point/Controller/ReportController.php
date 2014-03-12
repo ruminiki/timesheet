@@ -29,13 +29,7 @@ class ReportController extends AbstractActionController
         //converte para minutos para realizar as somas e em seguida converte novamente para horas
         //para apresentar no relatório
         $monthly_balance_minutes = TimeUtil::hours2minutes($worked_hours_month) - TimeUtil::hours2minutes($business_days * $journey_daily);
-        //$f = fopen("/tmp/log.txt", "a");
-        //fwrite($f, $monthly_balance_minutes);
-        
         $monthly_balance = TimeUtil::minutes2hours($monthly_balance_minutes);
-        //fwrite($f, $monthly_balance);
-
-        //fclose($f);
 
         $overall_balance = $this->getOverallBalance(date('Y').date('m'));
 
@@ -72,14 +66,7 @@ class ReportController extends AbstractActionController
         //converte para minutos para realizar as somas e em seguida converte novamente para horas
         //para apresentar no relatório
         $monthly_balance_minutes = TimeUtil::hours2minutes($worked_hours_month) - TimeUtil::hours2minutes($business_days * $journey_daily);
-
-        //$f = fopen("/tmp/log.txt", "a");
-        //fwrite($f, $monthly_balance_minutes . "\n");
-        
         $monthly_balance = TimeUtil::minutes2hours($monthly_balance_minutes);
-        //fwrite($f, $monthly_balance . "\n");
-        
-        //fclose($f);
 
         $overall_balance = $this->getOverallBalance($year_month);      
 
@@ -144,17 +131,22 @@ class ReportController extends AbstractActionController
         $first_year_month_worked = $this->getPointTable()->getFirstYearMonthWorked();
         $overall_balance = (int) $this->getConfigTable()->getValueByKey(Config::SALDO_INICIAL_BANCO_DE_HORAS);
 
+        //converte hora no formato HH:MM para minutos
+        $overall_balance_minutes = TimeUtil::hours2minutes($overall_balance);
+
         while ($first_year_month_worked <= $year_month_limit) {
 
             $journey_daily = $this->getConfigTable()->getValueByKey(Config::JORNADA_DIARIA);
             $journey_weekly = $this->getConfigTable()->getValueByKey(Config::JORNADA_SEMANAL);
 
             $business_days = $this->getDayNotWorkedTable()->getBusinessDaysByMonth($first_year_month_worked, $journey_weekly);
-            
             $worked_hours_month = $this->getWorkedHoursTable()->getSumWorkedHoursMonth($first_year_month_worked);
+            //calcula o saldo de horas trabalhados no mês e o converte para minutos
+            $monthly_balance_minutes = TimeUtil::hours2minutes($worked_hours_month) - TimeUtil::hours2minutes($business_days * $journey_daily);
+            //$monthly_balance = $worked_hours_month - ($business_days * $journey_daily);
 
-            $monthly_balance = $worked_hours_month - ($business_days * $journey_daily);
-            $overall_balance += $monthly_balance;
+            //realiza a soma do acumulado de cada mês para o acumulado geral
+            $overall_balance_minutes += $monthly_balance_minutes;
 
             $month = (int) substr($first_year_month_worked, 4,2);
 
@@ -175,7 +167,7 @@ class ReportController extends AbstractActionController
 
         }
 
-        return $overall_balance;
+        return TimeUtil::minutes2hours($overall_balance_minutes);
     }
 
 }

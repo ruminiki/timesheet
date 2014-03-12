@@ -20,13 +20,9 @@ class TimeUtil
 	public static function minutes2hours($Minutes)
 	{
 
-		$f = fopen("/tmp/log.txt", "a");
-
-		fwrite($f, $Minutes . "\n");
-
 		$Minutes = (int) $Minutes;
 
-		 if ($Minutes < 0)
+		if ($Minutes < 0)
 	    {
 	        $Min = Abs($Minutes);
 	    }
@@ -34,10 +30,11 @@ class TimeUtil
 	    {
 	        $Min = $Minutes;
 	    }
-	    $iHours = Floor($Min / 60);
-	    $Minutes = ($Min - ($iHours * 60)) / 100;
-	    $tHours = $iHours + $Minutes;
-	    if ($Minutes < 0)
+	    $iHours = (int) ($Min / 60);
+	    //$Minutes = ($Min - ($iHours * 60)) / 100;
+	    $Min = $Min - ($iHours * 60);
+	    /*$tHours = $iHours + $Minutes;*/
+	    /*if ($Minutes < 0)
 	    {
 	        $tHours = $tHours * (-1);
 	    }
@@ -46,18 +43,24 @@ class TimeUtil
 	    if (empty($aHours[1]))
 	    {
 	        $aHours[1] = "00";
-	    }
-	    $Minutes = $aHours[1];
-	    if (strlen($Minutes) < 2)
+	    }*/
+	    //$Minutes = $aHours[1];
+	    if (strlen($Min) < 2)
 	    {
-	        $Minutes = $Minutes ."0";
+	        $Min = $Min ."0";
 	    }
+	    
 	    if ($iHours < 10)
 	    {
-	    $iHours = "0" . $iHours;
+	   		$iHours = "0" . $iHours;
 	    }
-	    $tHours = $iHours .":". $Minutes;
 
+ 		$tHours = $iHours .":". $Min;
+
+ 		if ($Minutes < 0)
+	    {
+	        return " - " . $tHours;
+	    }
 		
         fwrite($f, $tHours . "\n");
 		fclose($f);
