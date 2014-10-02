@@ -110,6 +110,30 @@ class PointController extends AbstractActionController
 
     }
 
+    public function addInLineAction(){
+        $request = $this->getRequest();
+
+        //retrieve selected date from session
+        $container = new Container('selectedDate');
+        //format date (Ymd) to (d/m/Y)
+        $date = date_create($container->selectedDate);
+        $this->getPointTable()->deletePointByDate(date_format($date, 'Ymd'));
+
+        if ($request->isPost()) {
+
+            for ( $i = 1; $i <= 4; $i++ ){
+
+                $point = new Point();
+                $point->schedule = $request->getPost('h'.$i);
+                $point->date = date_format($date, 'Ymd');
+                $this->getPointTable()->savePoint($point);
+                
+            }
+
+        }
+        return $this->redirect()->toRoute('point');
+    }
+
     public function addAction()
     {
         

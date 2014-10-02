@@ -181,6 +181,11 @@ class PointTable
         $this->tableGateway->delete(array('id' => $id));
     }
 
+    public function deletePointByDate($date){
+        //$sql = "delete from point where date = '$date'";
+        //$statement = $this->tableGateway->adapter->query($sql); 
+        $this->tableGateway->delete(array('date' => $date));
+    }
     //retorna os meses (YM) com registro de ponto para calculo de saldo de banco de horas
     public function getFirstYearMonthWorked()
     {

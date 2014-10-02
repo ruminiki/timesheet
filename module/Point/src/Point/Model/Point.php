@@ -30,7 +30,7 @@ class Point implements InputFilterAwareInterface
     // Add content to these methods:
     public function setInputFilter(InputFilterInterface $inputFilter)
     {
-        throw new \Exception("Not used");
+        throw new Exception("Not used");
     }
 
     public function getInputFilter()

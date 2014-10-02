@@ -1,6 +1,10 @@
 $(document).ready(function(){
 	//view/point/point/add.phtml
 	$("[name='schedule']").mask('00:00');
+	$("[name='h1']").mask('00:00');
+	$("[name='h2']").mask('00:00');
+	$("[name='h3']").mask('00:00');
+	$("[name='h4']").mask('00:00');
 	//view/point/report/index.phtml
 	$('#datepicker-date-report').Zebra_DatePicker({
 	  format: 'Y m'   //  note that becase there's no day in the format

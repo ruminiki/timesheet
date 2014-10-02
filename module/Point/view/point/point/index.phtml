@@ -117,9 +117,9 @@ $calendar.= '</table>';
 echo $calendar;
 ?>
 
-<div style="display:inline-flex; line-height:33px; width:100%">
-    <div style="display:inline-flex">
-        <?php
+<div class="menu-link-button">
+    <div class="div-line">
+<!--         <?php
         if (!($month > date('n') && $year >= date('Y'))){
         ?>
         <p>
@@ -127,7 +127,7 @@ echo $calendar;
         </p>
         &nbsp;
         |
-        &nbsp;
+        &nbsp; -->
         <?php } ?>
         
         <p>
@@ -141,36 +141,48 @@ echo $calendar;
         </p>
     </div>
 </div>
-<div style="display:inline-flex; line-height:33px; width:100%; margin-top: 0px">
-    <h6 style="margin-top: 0px">Horas trabalhadas no mês: <?php echo $worked_hours_month; ?></h6>
+
+<!-- insercao em linha -->
+<form id="formInsercaoInLine" action="<?php echo $this->url('point', array('action' => 'addInLine')) ?>" method="post">
+    <div class="menu-link-button">
+        <?php
+            $i = 0;
+            foreach ($points as $point) :
+                switch ($i) {
+                    case 0:
+                        $entrada1 = $this->escapeHtml($point->schedule);
+                        break;
+                    case 1:
+                        $entrada2 = $this->escapeHtml($point->schedule);
+                        break;
+                    case 2:
+                        $entrada3 = $this->escapeHtml($point->schedule);
+                        break;
+                    case 3:
+                        $entrada4 = $this->escapeHtml($point->schedule);
+                        break;
+                }
+                $i++;
+            endforeach; 
+        ?>
+        <div class="div-line">
+            <label for="h1" style="padding-right:5px">Entrada 1:</label>
+            <input class="form-control input-horas" type="text" id="h1" name="h1" value="<?php echo $entrada1 ?>"/>
+            <label for="h2" style="padding-right:5px; padding-left:5px">Saída 1:</label>
+            <input class="form-control input-horas" type="text" id="h2" name="h2" value="<?php echo $entrada2 ?>"/>
+            <label for="h3" style="padding-right:5px; padding-left:5px">Entrada 2:</label>
+            <input class="form-control input-horas" type="text" id="h3" name="h3" value="<?php echo $entrada3 ?>"/>
+            <label for="h4" style="padding-right:5px; padding-left:5px">Saída 2:</label>
+            <input class="form-control input-horas" type="text" id="h4" name="h4" value="<?php echo $entrada4 ?>"/>
+            <input  style="margin-left:5px; height: 35px" type="submit" value="Salvar" class="btn btn-primary"/>
+        </div>
+
+    </div>
+</form>
+
+<div class="div-horas-trabalhadas">
+    <h6 style="margin-top: 0px"><?php echo 'Horas trabalhadas no dia: ' . $worked_hours_day; ?></h6>
 </div>
-
-
-<table class="table">
-<tr>
-    <th>Data</th>
-    <th>Horário</th>
-    <th>Nota</th>
-    <th>&nbsp;</th>
-</tr>
-<?php foreach ($points as $point) : ?>
-<tr>
-    <td><?php echo $this->escapeHtml(substr($point->date, 6, 2) . "/" . substr($point->date, 4, 2) . "/" . substr($point->date, 0, 4) );?></td>
-    <td width="30px"><?php echo $this->escapeHtml($point->schedule);?></td>
-    <td width="80%"><?php echo $this->escapeHtml($point->note);?></td>
-    <td width="120px">
-        <a href="<?php echo $this->url('point',array('action'=>'edit', 'id' => $point->id));?>">Edit</a>
-        <a href="<?php echo $this->url('point',array('action'=>'delete', 'id' => $point->id));?>">Delete</a>
-    </td>
-</tr>
-<?php endforeach; ?>
-<tr>
-    <td>
-        
-    </td>
-    <td>
-         <?php echo $worked_hours_day; ?>
-    </td>
-
-</tr>
-</table>
+<div class="div-horas-trabalhadas">
+    <h5 style="margin-top: 0px">Horas trabalhadas no mês: <?php echo $worked_hours_month; ?></h5>
+</div>

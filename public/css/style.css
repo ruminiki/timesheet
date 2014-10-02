@@ -35,3 +35,21 @@ div.container a.brand {
     margin-left: 0;
     padding: 8px 20px 12px 40px;
 }
+
+.menu-link-button{
+  display:inline-flex; line-height:33px; width:100%;
+}
+
+.div-line{
+  display:inline-flex;
+  width:100%;
+  line-height:33px;
+}
+
+.div-horas-trabalhadas{
+  display:inline-flex; line-height:33px; width:100%; margin-top: 0px;
+}
+
+.input-horas{
+  width:18.04%;
+}
